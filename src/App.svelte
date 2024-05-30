@@ -1,6 +1,6 @@
 <script>
-  import svelteLogo from "@assets/svelte.svg";
-  import { Counter } from "@components";
+  import svelteLogo from '@assets/svelte.svg';
+  import { Counter } from '@components';
 </script>
 
 <main>

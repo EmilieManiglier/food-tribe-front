@@ -31,6 +31,16 @@ gem install foreman
 ./scripts/dev
 ```
 
+### Format code with ESLint and Prettier
+
+- If you are using VSCode it is recommended to install these extensions
+	- [Svelte For VS Code](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode)
+	- [ESlint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+	- [Prettier - Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+	- [Prettier ESLint](https://marketplace.visualstudio.com/items?itemName=rvest.vs-code-prettier-eslint)
+
+- The code should be formatted following with Prettier and ESLint rules whenever you save a file
+
 ### Build for production
 
 - Build app
