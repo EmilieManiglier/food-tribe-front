@@ -1,0 +1,28 @@
+{
+  "boxShadow": {
+    "inset-sm": "inset 0.06rem 0.06rem 0.25rem 0 rgba(38, 56, 67, 0.15)"
+  },
+  "colors": {
+    "gray": {
+      "300": "#e0dbe7",
+      "700": "#292929"
+    },
+    "primary": {
+      "400": "#00F2D6",
+      "500": "#00C9B2",
+      "600": "#009180"
+    },
+    "secondary": {
+      "300": "#f6f4fa",
+      "400": "#837d90",
+      "500": "#291338"
+    },
+    "orange": {
+      "500": "#F9B557"
+    }
+  },
+  "fontFamily": {
+    "text": ["EK Mukta", "sans-serif"],
+    "title": ["Exo", "sans-serif"]
+  }
+}

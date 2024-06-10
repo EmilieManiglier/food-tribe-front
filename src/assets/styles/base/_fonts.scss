@@ -1,0 +1,14 @@
+@mixin font($family, $url, $weight, $style, $font-display: auto) {
+  @font-face {
+    font-family: $family;
+    src:
+      url($url + '.woff2') format('woff2'),
+      url($url + '.woff') format('woff');
+    font-weight: $weight;
+    font-style: $style;
+    font-display: $font-display;
+  }
+}
+
+@include font('EK Mukta', '@/assets/fonts/ek-mukta/ek-mukta-regular', 400, normal);
+@include font('Exo', '@/assets/fonts/exo/exo', 500, normal);
