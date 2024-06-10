@@ -2,11 +2,12 @@
   import { Router, Route } from 'svelte-routing';
 
   import { routes } from '@/router';
-  import { DesignSystemPage } from '@/components';
+  import { DesignSystemPage, HomePage } from '@/components';
 </script>
 
 <main>
   <Router basepath="/">
     <Route path={routes.designSystem.path} component={DesignSystemPage} />
+    <Route path={routes.home.path} component={HomePage} />
   </Router>
 </main>
