@@ -6,6 +6,7 @@ export default [
   ...eslintPluginSvelte.configs['flat/recommended'],
   ...eslintPluginSvelte.configs['flat/prettier'],
   {
+    files: ['**/*.ts', '**/*.svelte'],
     plugins: {
       prettierPlugin
     }

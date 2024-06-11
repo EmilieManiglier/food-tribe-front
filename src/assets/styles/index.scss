@@ -1,0 +1,13 @@
+// Base
+@use '@/assets/styles/base/tailwind.scss';
+@use '@/assets/styles/base/buttons.scss';
+@use '@/assets/styles/base/fonts.scss';
+@use '@/assets/styles/base/typography.scss';
+
+// Components
+@use '@/assets/styles/base/modal.scss';
+@use '@/assets/styles/base/form.scss';
+
+html {
+	@apply font-text text-gray-700 scroll-smooth;
+}

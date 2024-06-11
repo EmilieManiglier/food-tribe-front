@@ -1,0 +1,14 @@
+@mixin font($family, $url, $weight, $style, $font-display: auto) {
+  @font-face {
+    font-family: $family;
+    src:
+      url($url + '.woff2') format('woff2'),
+      url($url + '.woff') format('woff');
+    font-weight: $weight;
+    font-style: $style;
+    font-display: $font-display;
+  }
+}
+
+@include font('Anek Malayalam', '@/assets/fonts/anek-malayalam/anek-malayalam', 500, normal);
+@include font('Teko', '@/assets/fonts/teko/teko', 500, normal);

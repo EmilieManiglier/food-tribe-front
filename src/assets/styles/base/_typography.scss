@@ -1,0 +1,13 @@
+@layer base {
+	.h1 {
+    @apply font-title font-bold text-xl lg:text-4xl lg:leading-10;
+	}
+
+	.h2 {
+    @apply font-title font-bold text-xl lg:text-2xl;
+	}
+
+	.h3 {
+    @apply font-title font-bold text-base lg:text-xl;
+  }
+}
