@@ -9,7 +9,7 @@
   }
 
   .input {
-    @apply bg-secondary-300 px-6 py-4 w-full rounded-sm outline-none;
+    @apply bg-gray-50 px-6 py-4 w-full rounded-sm outline-none border border-gray-300;
 
     &:focus,
     &:active {

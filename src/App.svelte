@@ -7,7 +7,9 @@
 
 <main>
   <Router basepath="/">
+    <!-- TODO : Show DesignSystem Route only in dev mode -->
     <Route path={routes.designSystem.path} component={DesignSystemPage} />
+
     <Route path={routes.home.path} component={HomePage} />
   </Router>
 </main>
