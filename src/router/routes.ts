@@ -4,5 +4,11 @@ export const routes = {
   },
   home: {
     path: '/accueil'
+  },
+  login: {
+    path: '/connexion'
+  },
+  register: {
+    path: '/inscription'
   }
 };

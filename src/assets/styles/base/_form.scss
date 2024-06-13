@@ -9,11 +9,11 @@
   }
 
   .input {
-    @apply bg-gray-50 px-6 py-4 w-full rounded-sm outline-none border border-gray-300;
+    @apply bg-gray-50 px-6 py-4 w-full rounded-sm outline-none border border-purple-300;
 
     &:focus,
     &:active {
-      @apply shadow-inset-sm bg-gray-300;
+      @apply shadow-inset-sm bg-purple-300;
     }
   }
 }
