@@ -7,5 +7,8 @@ export const routes = {
   },
   login: {
     path: '/connexion'
+  },
+  register: {
+    path: '/inscription'
   }
 };

@@ -28,7 +28,7 @@
 </script>
 
 <div
-  class="fixed inset-0 z-40 bg-black/25 {open ? 'block' : 'hidden'}"
+  class="fixed inset-0 z-40 bg-purple-900/90 {open ? 'block' : 'hidden'}"
   on:click={() => (open = false)}
 >
   <span class="sr-only">Close modal</span>

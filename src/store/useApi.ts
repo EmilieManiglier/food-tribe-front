@@ -2,13 +2,7 @@ import { AxiosError } from 'axios';
 import { writable } from 'svelte/store';
 
 import { api } from '@/api';
-
-type ApiCallParams = {
-  url: string;
-  method?: 'get' | 'post' | 'put' | 'delete';
-  params?: Record<string, unknown>;
-  axiosOptions?: Record<string, unknown>;
-};
+import type { ApiCallParams } from '@/definitions';
 
 export const useApi = () => {
   const loading = writable<boolean>(false);

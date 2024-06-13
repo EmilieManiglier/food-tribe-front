@@ -1,7 +1,17 @@
 <script lang="ts">
-  import { useCurrentUser } from '@/store';
+  import { useApi, useCurrentUser } from '@/store';
+  import { onMount } from 'svelte';
 
   const { currentUser } = useCurrentUser();
+  const { call } = useApi();
+
+  onMount(() => {
+    getPlaces();
+  });
+
+  const getPlaces = async () => {
+    await call({ url: '/places', method: 'get' });
+  };
 </script>
 
 {#if $currentUser}

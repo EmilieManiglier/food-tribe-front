@@ -14,7 +14,7 @@
   };
 </script>
 
-<div class="bg-gray-300 p-8 mb-8 lg:p-16">
+<div class="bg-purple-300 p-8 mb-8 lg:p-16">
   <h1 class="h1">Design system</h1>
 </div>
 
