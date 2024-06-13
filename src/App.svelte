@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { Router, Route } from 'svelte-routing';
+  import { Router, Route } from 'svelte-navigator';
 
   import { routes } from '@/router';
-  import { DesignSystemPage, HomePage } from '@/components';
+  import { DesignSystemPage, HomePage, LoginPage } from '@/components';
 </script>
 
 <main>
@@ -11,5 +11,6 @@
     <Route path={routes.designSystem.path} component={DesignSystemPage} />
 
     <Route path={routes.home.path} component={HomePage} />
+    <Route path={routes.login.path} component={LoginPage} />
   </Router>
 </main>

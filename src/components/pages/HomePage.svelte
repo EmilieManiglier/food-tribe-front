@@ -1,5 +1,11 @@
 <script lang="ts">
-  import { Map } from '@/components';
+  import { useCurrentUser } from '@/store';
+
+  const { currentUser } = useCurrentUser();
 </script>
 
-<Map />
+{#if $currentUser}
+  <h1>Welcome back, {$currentUser?.firstname}</h1>
+{:else}
+  <h1>Welcome to the home page</h1>
+{/if}

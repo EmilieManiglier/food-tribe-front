@@ -1,9 +1,21 @@
 @layer components {
 	.btn {
-		@apply px-4 py-2 bg-primary-500 text-white rounded-sm transition-colors duration-300 ease-in-out hover:bg-primary-600;
+		@apply px-4 py-2 bg-primary-500 text-white rounded-sm transition-colors duration-300 ease-in-out;
 
 		&.outlined {
-			@apply bg-transparent border border-primary-500 text-primary-500 hover:bg-primary-500 hover:text-white;
+			@apply bg-transparent border border-primary-500 text-primary-500;
+
+			&:not(:disabled):hover {
+				@apply bg-primary-500 text-white;
+			}
+		}
+
+		&:disabled {
+			@apply opacity-60 cursor-not-allowed;
+		}
+
+		&:not(:disabled):hover {
+			@apply shadow-md bg-primary-600;
 		}
 	}
 }

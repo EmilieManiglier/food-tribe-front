@@ -8,3 +8,4 @@ export { default as FormInput } from '@/components/base/form/FormInput.svelte';
 // Pages
 export { default as DesignSystemPage } from '@/components/pages/DesignSystemPage.svelte';
 export { default as HomePage } from '@/components/pages/HomePage.svelte';
+export { default as LoginPage } from '@/components/pages/LoginPage.svelte';
