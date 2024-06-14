@@ -1,4 +1,7 @@
 <script lang="ts">
+  import { Icon } from '@/components';
+  import Button from '@/components/base/Button.svelte';
+  import { faClose } from '@fortawesome/free-solid-svg-icons';
   import { onMount } from 'svelte';
 
   export let size: 'small' | 'medium' | 'large' = 'medium';
@@ -27,15 +30,42 @@
   };
 </script>
 
-<div
-  class="fixed inset-0 z-40 bg-purple-900/90 {open ? 'block' : 'hidden'}"
-  on:click={() => (open = false)}
->
-  <span class="sr-only">Close modal</span>
-</div>
+{#if open}
+  <div
+    class="fixed inset-0 z-40 bg-purple-900/90 {open ? 'block' : 'hidden'}"
+    on:click={() => (open = false)}
+  >
+    <span class="sr-only">Fermer la modale</span>
+  </div>
 
-<div class="modal {size} {open && 'open'}">
-  <slot name="header" />
-  <slot name="body" />
-  <slot name="footer" />
-</div>
+  <div class="modal {size} {open && 'open'}">
+    <div class="flex-start-between gap-4">
+      <slot name="header" />
+
+      <Button className="small empty" on:click={() => (open = false)}>
+        <Icon name={faClose} size="lg" />
+        <span class="sr-only">Fermer la modale</span>
+      </Button>
+    </div>
+    <slot name="body" />
+    <slot name="footer" />
+  </div>
+{/if}
+
+<style lang="postcss" scoped>
+  .modal {
+    @apply fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg p-4 -z-10 w-9/10 max-w-9/10 h-9/10 max-h-9/10 opacity-0 transition-opacity duration-200 ease-in-out;
+
+    &.small {
+      @apply max-w-sm h-fit;
+    }
+
+    &.medium {
+      @apply max-w-4xl h-fit;
+    }
+
+    &.open {
+      @apply opacity-100 z-50;
+    }
+  }
+</style>

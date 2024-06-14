@@ -32,5 +32,17 @@
   "fontFamily": {
     "text": ["Anek Malayalam", "sans-serif"],
     "title": ["Teko", "sans-serif"]
+  },
+  "height": {
+    "9/10": "90%"
+  },
+  "maxHeight": {
+    "9/10": "90%"
+  },
+  "width": {
+    "9/10": "90%"
+  },
+  "maxWidth": {
+    "9/10": "90%"
   }
 }

@@ -1,13 +1,13 @@
 // Base
 @use '@/assets/styles/base/tailwind.scss';
 @use '@/assets/styles/base/utilities.scss';
-@use '@/assets/styles/base/buttons.scss';
 @use '@/assets/styles/base/fonts.scss';
 @use '@/assets/styles/base/typography.scss';
+@use '@/assets/styles/base/form.scss';
 
 // Components
-@use '@/assets/styles/base/modal.scss';
-@use '@/assets/styles/base/form.scss';
+@use '@/assets/styles/components/badge.scss';
+@use '@/assets/styles/components/toasts.scss';
 
 html {
 	@apply font-text text-gray-700 scroll-smooth;

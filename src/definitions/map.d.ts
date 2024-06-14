@@ -1,3 +1,5 @@
+import type { Category, Place } from '@/definitions';
+
 export type MapOptionState = {
   lat: number;
   lng: number;
@@ -5,7 +7,7 @@ export type MapOptionState = {
 };
 
 export type MapMarker = Marker & {
-  placeName?: string;
+  place: Place;
 };
 
 export type MarkerModal = {

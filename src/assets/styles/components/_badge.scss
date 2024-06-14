@@ -1,0 +1,17 @@
+@layer components {
+	.badge {
+		@apply px-4 py-2 rounded-xl bg-primary-500 text-gray-700;
+
+		&.secondary {
+			@apply bg-secondary-500;
+		}
+
+		&.accent {
+			@apply bg-accent-500;
+		}
+
+		&.small {
+			@apply px-2 py-1 text-sm;
+		}
+	}
+}

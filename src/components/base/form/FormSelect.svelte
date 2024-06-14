@@ -5,7 +5,7 @@
 
   export let options: Option[];
   export let name: string;
-  export let label = '';
+  export let selectLabel = '';
   export let value: Option | Option[] | null = null;
   export let placeholder = '';
   export let required = false;
@@ -13,6 +13,8 @@
   export let showChevron = true;
   export let searchable = false;
   export let multiple = false;
+  export let itemId: 'value' | 'id' = 'value';
+  export let label: 'label' | 'name' = 'label';
 
   const handleChange = (event: CustomEvent) => {
     value = event.detail;
@@ -20,13 +22,12 @@
 </script>
 
 <div class="form-select">
-  {#if label}
-    <span class="label">{label}</span>
+  {#if selectLabel}
+    <span class="label">{selectLabel}</span>
   {/if}
   <SvelteSelect
     items={options}
     {value}
-    {label}
     {required}
     {name}
     {loading}
@@ -34,10 +35,12 @@
     {searchable}
     {placeholder}
     {multiple}
+    {label}
+    {itemId}
     on:change={handleChange}
     on:clear={() => (value = null)}
   >
-    <div slot="empty">
+    <div slot="empty" class="p-4">
       <slot name="empty">Aucune option disponible</slot>
     </div>
   </SvelteSelect>
@@ -58,7 +61,7 @@
     --multi-item-color: #fff;
     --multi-item-clear-icon-color: #fff;
     --list-background: theme('colors.purple.200');
-    --list-empty-padding: 1rem;
+    --list-empty-padding: 1.5rem;
     --item-hover-bg: theme('colors.purple.500');
     --item-hover-color: #fff;
     --item-is-active-bg: theme('colors.primary.500');

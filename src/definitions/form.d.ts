@@ -1,4 +1,6 @@
 export type Option = {
-  label: string;
-  value: string | number;
+  label?: string;
+  name?: string;
+  value?: string | number;
+  id?: string | number;
 };
