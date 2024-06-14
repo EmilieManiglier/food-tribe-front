@@ -1,15 +1,19 @@
 export type MapOptionState = {
-	lat: number;
-	lng: number;
-	zoom?: number;
+  lat: number;
+  lng: number;
+  zoom?: number;
+};
+
+export type MapMarker = Marker & {
+  placeName?: string;
 };
 
 export type MarkerModal = {
-	open: boolean;
-	state: Marker | null;
+  open: boolean;
+  state: Marker | null;
 };
 
 export type FlatPosition = {
-	x: number;
-	y: number;
+  x: number;
+  y: number;
 };

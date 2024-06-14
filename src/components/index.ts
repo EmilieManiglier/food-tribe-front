@@ -4,6 +4,7 @@ export { default as Map } from '@/components/base/map/Map.svelte';
 
 // Form components
 export { default as FormInput } from '@/components/base/form/FormInput.svelte';
+export { default as FormSelect } from '@/components/base/form/FormSelect.svelte';
 
 // Auth components
 export { default as AuthLayout } from '@/components/auth/AuthLayout.svelte';

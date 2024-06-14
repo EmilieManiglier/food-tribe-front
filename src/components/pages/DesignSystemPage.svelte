@@ -1,13 +1,23 @@
 <script lang="ts">
-  import { Modal, FormInput } from '@/components';
+  import { Modal, FormInput, FormSelect } from '@/components';
   import tailwindStyles from '@/assets/styles/tailwind-styles.json';
   let simpleModalOpen = false;
   let hasSubmitForm = false;
 
   let form = {
     email: '',
-    password: ''
+    password: '',
+    categories: [],
+    singleCategory: null
   };
+
+  let categories = [
+    { value: 5, label: 'Fast-food' },
+    { value: 4, label: 'Boulangerie' },
+    { value: 3, label: 'Café' },
+    { value: 2, label: 'Bar' },
+    { value: 1, label: 'Restaurant' }
+  ];
 
   const handleSubmit = () => {
     hasSubmitForm = true;
@@ -93,11 +103,11 @@
       Ouvrir la modale
     </button>
 
-    <Modal bind:open={simpleModalOpen}>
-      <h2 slot="header" class="mb-8">
+    <Modal bind:open={simpleModalOpen} size="small">
+      <p slot="header" class="h3 mb-8">
         Pour ajouter ce lieu dans votre liste, veuillez compléter les informations
         suivantes
-      </h2>
+      </p>
 
       <div slot="body">Contenu de la modale</div>
     </Modal>
@@ -105,20 +115,31 @@
     <h2 id="section-forms" class="h2 mt-12 mb-6">Formulaires</h2>
 
     <div class="flex flex-col gap-4 lg:flex-row">
-      <form class="lg:w-1/2" on:submit|preventDefault={handleSubmit}>
-        <FormInput
-          bind:value={form.email}
-          name="email"
-          type="email"
-          label="Email"
-          className="mb-5"
-        />
+      <form class="flex flex-col gap-4 lg:w-1/2" on:submit|preventDefault={handleSubmit}>
+        <FormInput bind:value={form.email} name="email" type="email" label="Email" />
         <FormInput
           bind:value={form.password}
           name="password"
           type="password"
           label="Mot de passe"
-          className="mb-5"
+        />
+
+        <FormSelect
+          options={categories}
+          name="categories"
+          searchable
+          multiple
+          label="Select multiple"
+          placeholder="Sélectionner une ou plusieurs catégorie(s)"
+          bind:value={form.categories}
+        />
+
+        <FormSelect
+          options={categories}
+          name="singleCategory"
+          label="Select simple"
+          placeholder="Sélectionner une catégorie"
+          bind:value={form.singleCategory}
         />
 
         <button type="submit" class="btn">Valider</button>
