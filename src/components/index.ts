@@ -1,6 +1,5 @@
 // Base components
 export { default as Modal } from '@/components/base/dialog/Modal.svelte';
-export { default as Map } from '@/components/base/map/Map.svelte';
 export { default as Button } from '@/components/base/Button.svelte';
 export { default as Icon } from '@/components/base/images/Icon.svelte';
 
@@ -19,4 +18,6 @@ export { default as HomePage } from '@/components/pages/HomePage.svelte';
 export { default as AuthPage } from '@/components/pages/AuthPage.svelte';
 
 // Places
+export { default as Map } from '@/components/places/shared/Map.svelte';
 export { default as PlaceForm } from '@/components/places/edit/PlaceForm.svelte';
+export { default as PlacesContext } from '@/components/places/shared/PlacesContext.svelte';

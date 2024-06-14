@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onMount, getContext } from 'svelte';
   import { Map, Marker, MapStyle, config } from '@maptiler/sdk';
   import GeocodingControl from '@maptiler/geocoding-control/svelte/GeocodingControl.svelte';
   import { createMapLibreGlMapController } from '@maptiler/geocoding-control/maplibregl';
@@ -8,18 +8,13 @@
   import { faPenToSquare, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
   import type {
+    PlacesContextValue,
     FlatPosition,
     MapMarker,
     MapOptionState,
-    MarkerModal,
-    Place,
-    Category
+    Place
   } from '@/definitions';
   import { Button, Icon, Modal, PlaceForm } from '@/components';
-  import { useApi } from '@/store';
-  import { displayToast } from '@/helpers';
-
-  type ModalType = 'delete' | 'edit' | 'create' | 'show';
 
   export let initialState: MapOptionState = {
     lat: 45.76,
@@ -31,20 +26,20 @@
   let mapContainer: HTMLElement;
   let mapController: any;
   let markers: MapMarker[] = [];
-  let showMarkerModal: MarkerModal = { open: false, state: null };
-  let newMarkerModal: MarkerModal = { open: false, state: null };
-  let deleteModal: MarkerModal = { open: false, state: null };
-  let editModal: MarkerModal = { open: false, state: null };
 
   config.apiKey = import.meta.env.VITE_APP_MAPTILER_API_KEY;
 
-  const { call: placesCall, data: places } = useApi<Place[]>();
-  const { call: categoriesCall, data: categories } = useApi<Category[]>();
   const {
-    call: deletePlaceCall,
-    loading: deleteLoading,
-    status: deleteStatus
-  } = useApi();
+    getPlaces,
+    getCategories,
+    deletePlace,
+    places,
+    categories,
+    deleteLoading,
+    modals,
+    closeModals,
+    openModal
+  } = getContext<PlacesContextValue>('places');
 
   onMount(() => {
     getPlaces();
@@ -60,14 +55,9 @@
     };
   });
 
-  const getPlaces = async () => {
-    await placesCall({ url: '/places', method: 'get' });
-    if ($places) initMarkers();
-  };
-
-  const getCategories = async () => {
-    await categoriesCall({ url: '/categories', method: 'get' });
-  };
+  $: {
+    if ($places?.length > 0) initMarkers();
+  }
 
   const initMap = () => {
     map = new Map({
@@ -81,7 +71,7 @@
     mapController = createMapLibreGlMapController(map, maplibregl);
   };
 
-  const initMarkers = () => {
+  const initMarkers = (): void => {
     $places?.forEach((place: Place) => {
       const marker: MapMarker = new Marker()
         .setLngLat({ lat: place.lat, lng: place.lng })
@@ -97,28 +87,28 @@
     });
   };
 
-  const openMarkerModal = (coordinates: MapOptionState, clickPosition: FlatPosition) => {
+  const openMarkerModal = (
+    coordinates: MapOptionState,
+    clickPosition: FlatPosition
+  ): void => {
     // Compare coordinates with every marker in markers to avoid adding duplicates
     const existingMarker = markers.find((marker: MapMarker) =>
       isWithinMargin(marker._flatPos, clickPosition)
     );
 
     if (existingMarker) {
-      showMarkerModal = { open: true, state: existingMarker.place };
+      openModal('show', existingMarker.place);
     } else {
-      newMarkerModal = {
-        open: true,
-        state: {
-          lat: coordinates.lat,
-          lng: coordinates.lng,
-          categories: $categories,
-          name: ''
-        }
-      };
+      openModal('create', {
+        lat: coordinates.lat,
+        lng: coordinates.lng,
+        categories: $categories,
+        name: ''
+      });
     }
   };
 
-  const addMarkerFromForm = (event: CustomEvent) => {
+  const addMarkerFromForm = (event: CustomEvent): void => {
     const newMarker: MapMarker = new Marker()
       .setLngLat({ lat: event.detail.lat, lng: event.detail.lng })
       .addTo(map);
@@ -133,7 +123,7 @@
     closeModals();
   };
 
-  const editMarker = (event: CustomEvent) => {
+  const editMarker = (event: CustomEvent): void => {
     closeModals();
     const marker = markers.find((marker) => marker.place.id === event.detail.id);
     if (!marker) return;
@@ -144,7 +134,7 @@
     markerPosition: FlatPosition,
     clickPosition: FlatPosition,
     margin = 50
-  ) => {
+  ): boolean => {
     // Remove decimals from marker position and convert value to number
     markerPosition = {
       x: Number(markerPosition.x.toFixed(0)),
@@ -155,46 +145,6 @@
       Math.abs(markerPosition.x - clickPosition.x) <= margin &&
       Math.abs(markerPosition.y - clickPosition.y) <= margin
     );
-  };
-
-  const deletePlace = async () => {
-    if (!deleteModal.state?.id) return;
-    await deletePlaceCall({
-      url: `/places/${deleteModal.state.id}`,
-      method: 'delete'
-    });
-
-    if ($deleteStatus === 204) {
-      displayToast('success', 'Le lieu a été supprimé avec succès');
-      // Remove marker from map
-      const marker = markers.find((marker) => marker.place.id === deleteModal.state.id);
-      marker?.remove();
-    } else {
-      displayToast('error', 'Une erreur est survenue lors de la suppression du lieu');
-    }
-
-    closeModals();
-  };
-
-  const openModal = (type: ModalType, marker: MapMarker) => {
-    closeModals();
-    switch (type) {
-      case 'delete':
-        deleteModal = { open: true, state: marker };
-        break;
-      case 'edit':
-        editModal = { open: true, state: marker };
-        break;
-      default:
-        break;
-    }
-  };
-
-  const closeModals = () => {
-    showMarkerModal = { open: false, state: null };
-    newMarkerModal = { open: false, state: null };
-    deleteModal = { open: false, state: null };
-    editModal = { open: false, state: null };
   };
 </script>
 
@@ -209,14 +159,14 @@
 </div>
 
 <!-- New Marker Modal -->
-<Modal bind:open={newMarkerModal.open}>
+<Modal bind:open={$modals.create.open}>
   <p slot="header" class="h3 mb-12 md:p-6 md:pb-0">
     Pour ajouter ce lieu dans votre liste, veuillez compléter les informations suivantes
   </p>
 
   <div slot="body" class="md:p-6 md:pt-0">
     <PlaceForm
-      place={newMarkerModal.state}
+      place={$modals.create.state}
       on:close={closeModals}
       on:created={addMarkerFromForm}
     />
@@ -224,12 +174,12 @@
 </Modal>
 
 <!-- Show Marker Modal -->
-<Modal bind:open={showMarkerModal.open} size="small">
-  <p slot="header" class="h2">{showMarkerModal.state?.name}</p>
+<Modal bind:open={$modals.show.open} size="small">
+  <p slot="header" class="h2">{$modals.show.state?.name}</p>
 
   <div slot="body" class="flex gap-4 mb-12">
-    {#if showMarkerModal.state?.categories?.length > 0}
-      {#each showMarkerModal.state.categories as category}
+    {#if $modals.show.state?.categories?.length > 0}
+      {#each $modals.show.state.categories as category}
         <span class="badge secondary small">{category.name}</span>
       {/each}
     {/if}
@@ -239,7 +189,7 @@
     <Button
       className="small outlined"
       icon={faTrashAlt}
-      on:click={() => openModal('delete', showMarkerModal.state)}
+      on:click={() => openModal('delete', $modals.show.state)}
     >
       Supprimer
     </Button>
@@ -247,7 +197,7 @@
     <Button
       className="small"
       icon={faPenToSquare}
-      on:click={() => openModal('edit', showMarkerModal.state)}
+      on:click={() => openModal('edit', $modals.show.state)}
     >
       Éditer ce lieu
     </Button>
@@ -255,14 +205,15 @@
 </Modal>
 
 <!-- Edit Marker Modal -->
-<Modal bind:open={editModal.open}>
+<Modal bind:open={$modals.edit.open}>
   <p slot="header" class="h3 mb-12 md:p-6 md:pb-0">
-    Modifier {editModal.state?.name}
+    Modifier {$modals.edit.state?.name}
   </p>
 
   <div slot="body" class="md:p-6 md:pt-0">
     <PlaceForm
-      place={editModal.state}
+      place={$modals.edit.state}
+      categories={$categories}
       edit
       on:close={closeModals}
       on:edited={editMarker}
@@ -271,8 +222,8 @@
 </Modal>
 
 <!-- Delete Modal -->
-<Modal bind:open={deleteModal.open} size="small">
-  <p slot="header" class="h2">{deleteModal.state?.name}</p>
+<Modal bind:open={$modals.delete.open} size="small">
+  <p slot="header" class="h2">{$modals.delete.state?.name}</p>
 
   <div slot="body" class="my-12 text-center">
     <div class="flex-center-center bg-red-100 p-4 rounded-full w-14 h-14 mx-auto mb-4">
@@ -289,7 +240,7 @@
       className="small"
       icon={faPenToSquare}
       loading={$deleteLoading}
-      on:click={deletePlace}
+      on:click={() => deletePlace(markers)}
     >
       Confirmer
     </Button>

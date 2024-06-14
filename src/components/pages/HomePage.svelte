@@ -1,5 +1,7 @@
 <script lang="ts">
-  import { Map } from '@/components';
+  import { Map, PlacesContext } from '@/components';
 </script>
 
-<Map />
+<PlacesContext>
+  <Map />
+</PlacesContext>

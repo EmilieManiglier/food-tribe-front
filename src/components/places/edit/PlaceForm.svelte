@@ -2,11 +2,12 @@
   import { createEventDispatcher, onMount } from 'svelte';
 
   import { Button, FormInput, FormSelect } from '@/components';
-  import type { Place } from '@/definitions';
+  import type { Category, Place } from '@/definitions';
   import { useApi } from '@/store';
   import { displayToast } from '@/helpers';
 
   export let place: Place;
+  export let categories: Category[] = place.categories || [];
   export let edit: boolean = false;
 
   let form: Place = {
@@ -66,7 +67,7 @@
 
     if ($updateStatus === 200) {
       displayToast('success', `${form.name} a été modifié avec succès`);
-      dispatch('updated', form);
+      dispatch('edited', form);
     } else {
       displayToast('error', 'Une erreur est survenue lors de la modification du lieu');
     }
@@ -77,7 +78,7 @@
   <FormInput name="name" label="Nom du lieu" bind:value={form.name} required />
 
   <FormSelect
-    options={place.categories || []}
+    options={categories}
     name="categories"
     searchable
     placeholder="Sélectionner une ou plusieurs catégorie(s)"
