@@ -1,0 +1,17 @@
+/* stylelint-disable */
+.custom-success-toaster {
+  --toastBackground: theme('colors.accent.500');
+  --toastBarBackground: theme('colors.accent.600');
+  --toastColor: theme('colors.gray.700');
+  --toastBorderRadius: 0.3125rem;
+  --toastWidth: fit-content;
+}
+
+.custom-error-toaster {
+  --toastBackground: theme('colors.primary.300');
+  --toastBarBackground: theme('colors.primary.600');
+  --toastColor: theme('colors.gray.700');
+  --toastBorderRadius: 0.3125rem;
+  --toastWidth: fit-content;
+}
+/* stylelint-enable */

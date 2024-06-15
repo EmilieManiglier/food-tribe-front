@@ -4,9 +4,9 @@ import { writable } from 'svelte/store';
 import { api } from '@/api';
 import type { ApiCallParams } from '@/definitions';
 
-export const useApi = () => {
+export const useApi = <DataType>() => {
   const loading = writable<boolean>(false);
-  const data = writable<any>(null);
+  const data = writable<DataType | null>(null);
   const error = writable<AxiosError | null>(null);
   const status = writable<number | null>(null);
 

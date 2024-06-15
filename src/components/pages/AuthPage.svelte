@@ -3,11 +3,11 @@
   import { isEmpty } from 'lodash';
 
   import { AuthLayout, LoginForm, RegisterForm } from '@/components';
-  import type { ApiCallParams } from '@/definitions';
+  import type { ApiCallParams, User } from '@/definitions';
   import { routes } from '@/router';
   import { useApi } from '@/store';
 
-  const { call: loginCall, data: loginUser, loading: loginLoading } = useApi();
+  const { call: loginCall, data: loginUser, loading: loginLoading } = useApi<User>();
   const { call: registerCall, data: registerUser, loading: registerLoading } = useApi();
   const navigate = useNavigate();
   const location = useLocation();
