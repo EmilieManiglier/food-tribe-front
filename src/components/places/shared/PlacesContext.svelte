@@ -12,6 +12,7 @@
   } from '@/definitions';
   import { useApi } from '@/store';
   import { displayToast } from '@/helpers';
+  import { _ } from '@/translations';
 
   let modals = writable<PlaceModals>({
     delete: { open: false, state: null },
@@ -46,14 +47,14 @@
     });
 
     if ($deleteStatus === 204) {
-      displayToast('success', 'Le lieu a été supprimé avec succès');
+      displayToast('success', $_('place.delete.success'));
       // Remove marker from map
       const marker = markers.find(
         (marker: MapMarker) => marker.place.id === deleteModal.state.id
       );
       marker?.remove();
     } else {
-      displayToast('error', 'Une erreur est survenue lors de la suppression du lieu');
+      displayToast('error', $_('place.delete.error'));
     }
     closeModals();
   };

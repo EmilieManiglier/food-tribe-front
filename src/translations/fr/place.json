@@ -1,0 +1,19 @@
+{
+  "place": {
+    "create": {
+      "error": "Une erreur est survenue lors de la création du lieu",
+      "informations": "Pour ajouter ce lieu dans votre liste, veuillez compléter les informations suivantes",
+      "success": "{name} a été créé avec succès"
+    },
+    "delete": {
+      "confirm": "Supprimer ce lieu de votre liste ?",
+      "error": "Une erreur est survenue lors de la suppression du lieu",
+      "success": "Le lieu a été supprimé avec succès"
+    },
+    "edit": {
+      "error": "Une erreur est survenue lors de la modification du lieu",
+      "success": "{name} a été modifié avec succès",
+      "title": "Modifier {name}"
+    }
+  }
+}

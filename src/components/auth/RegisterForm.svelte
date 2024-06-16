@@ -2,6 +2,7 @@
   import { createEventDispatcher } from 'svelte';
 
   import { Button, FormInput } from '@/components';
+  import { _ } from '@/translations';
 
   export let loading = false;
 
@@ -33,13 +34,13 @@
       <FormInput
         bind:value={form.firstname}
         name="firstname"
-        label="Prénom"
+        label={$_('firstname')}
         className="col-span-2 lg:col-span-1"
       />
       <FormInput
         bind:value={form.lastname}
         name="lastname"
-        label="Nom"
+        label={$_('lastname')}
         className="col-span-2 lg:col-span-1"
       />
 
@@ -47,7 +48,7 @@
         bind:value={form.email}
         name="email"
         type="email"
-        label="Email"
+        label={$_('email')}
         className="col-span-2"
       />
 
@@ -55,7 +56,7 @@
         bind:value={form.password}
         name="password"
         type="password"
-        label="Mot de passe"
+        label={$_('password')}
         className="col-span-2"
       />
     </div>
@@ -66,27 +67,27 @@
       <FormInput
         bind:value={form.zipCode}
         name="zipCode"
-        label="Code postal"
+        label={$_('zipCode')}
         className="col-span-2 lg:col-span-1"
       />
       <FormInput
         bind:value={form.city}
         name="city"
-        label="Ville"
+        label={$_('city')}
         className="col-span-2 lg:col-span-1"
       />
 
       <FormInput
         bind:value={form.country}
         name="country"
-        label="Pays"
+        label={$_('country')}
         className="col-span-2"
       />
     </div>
   </div>
 
   <Button type="submit" className="mt-4 w-full lg:mt-0 lg:col-span-12" disabled={loading}>
-    Valider
+    {$_('buttons.validate')}
   </Button>
 </form>
 

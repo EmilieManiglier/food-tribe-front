@@ -6,6 +6,7 @@
   import type { ApiCallParams, User } from '@/definitions';
   import { routes } from '@/router';
   import { useApi, useCurrentUser } from '@/store';
+  import { _ } from '@/translations';
 
   const { call: loginCall, data: loginUser, loading: loginLoading } = useApi<User>();
   const {
@@ -54,9 +55,9 @@
       <div class="bg-purple-300 h-px w-full" />
       <div class="translate-center-center bg-white whitespace-nowrap p-1">
         {#if isLogin}
-          Pas encore de compte&nbsp;?
+          {$_('login.alreadyRegistered')}
         {:else if isRegister}
-          Déjà inscrit&nbsp;?
+          {$_('register.notRegistered')}
         {/if}
       </div>
     </div>
@@ -64,11 +65,11 @@
     <div class="pt-12 text-center">
       {#if isLogin}
         <a href={routes.register.path} class="bg-purple-300 p-4 w-full block">
-          Créer un compte
+          {$_('register.createAccount')}
         </a>
       {:else if isRegister}
         <a href={routes.login.path} class="bg-purple-300 p-4 w-full block">
-          Se connecter
+          {$_('login.loginCta')}
         </a>
       {/if}
     </div>

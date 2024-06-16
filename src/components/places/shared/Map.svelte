@@ -15,6 +15,7 @@
     Place
   } from '@/definitions';
   import { Button, Icon, Modal, PlaceForm } from '@/components';
+  import { _ } from '@/translations';
 
   export let initialState: MapOptionState = {
     lat: 45.76,
@@ -157,7 +158,7 @@
         {mapController}
         apiKey={config.apiKey}
         language="fr"
-        placeholder="Rechercher un lieu..."
+        placeholder={$_('searchPlace')}
       />
     </div>
   {/if}
@@ -166,7 +167,7 @@
 <!-- New Marker Modal -->
 <Modal bind:open={$modals.create.open}>
   <p slot="header" class="h3 mb-12 md:p-6 md:pb-0">
-    Pour ajouter ce lieu dans votre liste, veuillez compléter les informations suivantes
+    {$_('place.create.informations')}
   </p>
 
   <div slot="body" class="md:p-6 md:pt-0">
@@ -196,7 +197,7 @@
       icon={faTrashAlt}
       on:click={() => openModal('delete', $modals.show.state)}
     >
-      Supprimer
+      {$_('buttons.delete')}
     </Button>
 
     <Button
@@ -204,7 +205,7 @@
       icon={faPenToSquare}
       on:click={() => openModal('edit', $modals.show.state)}
     >
-      Éditer ce lieu
+      {$_('buttons.editPlace')}
     </Button>
   </div>
 </Modal>
@@ -212,7 +213,7 @@
 <!-- Edit Marker Modal -->
 <Modal bind:open={$modals.edit.open}>
   <p slot="header" class="h3 mb-12 md:p-6 md:pb-0">
-    Modifier {$modals.edit.state?.name}
+    {$_('place.edit.title', { values: { name: $modals.edit.state?.name } })}
   </p>
 
   <div slot="body" class="md:p-6 md:pt-0">
@@ -235,11 +236,15 @@
       <Icon name={faTrashAlt} size="lg" className="text-red-500" />
     </div>
 
-    <p class="font-bold">Supprimer ce lieu de votre liste ?</p>
+    <p class="font-bold">
+      {$_('place.delete.confirm')}
+    </p>
   </div>
 
   <div slot="footer" class="flex items-center justify-between">
-    <Button className="small outlined" on:click={closeModals}>Annuler</Button>
+    <Button className="small outlined" on:click={closeModals}>
+      {$_('buttons.cancel')}
+    </Button>
 
     <Button
       className="small"
@@ -247,7 +252,7 @@
       loading={$deleteLoading}
       on:click={() => deletePlace(markers)}
     >
-      Confirmer
+      {$_('buttons.confirm')}
     </Button>
   </div>
 </Modal>

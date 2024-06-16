@@ -1,8 +1,9 @@
 <script lang="ts">
-  import { Icon } from '@/components';
-  import Button from '@/components/base/Button.svelte';
-  import { faClose } from '@fortawesome/free-solid-svg-icons';
   import { onMount } from 'svelte';
+  import { faClose } from '@fortawesome/free-solid-svg-icons';
+
+  import { Icon, Button } from '@/components';
+  import { _ } from '@/translations';
 
   export let size: 'small' | 'medium' | 'large' = 'medium';
   export let open: boolean;
@@ -35,7 +36,7 @@
     class="fixed inset-0 z-40 bg-purple-900/90 {open ? 'block' : 'hidden'}"
     on:click={() => (open = false)}
   >
-    <span class="sr-only">Fermer la modale</span>
+    <span class="sr-only">{$_('buttons.closeModal')}</span>
   </div>
 
   <div class="modal {size} {open && 'open'}">
@@ -44,7 +45,7 @@
 
       <Button className="small empty" on:click={() => (open = false)}>
         <Icon name={faClose} size="lg" />
-        <span class="sr-only">Fermer la modale</span>
+        <span class="sr-only">{$_('buttons.closeModal')}</span>
       </Button>
     </div>
     <slot name="body" />

@@ -12,6 +12,7 @@
   import { routes } from '@/router';
   import { useApi, useCurrentUser } from '@/store';
   import { displayToast } from '@/helpers';
+  import { _ } from '@/translations';
 
   let menuOpen = false;
 
@@ -92,7 +93,7 @@
                 disabled={$logoutLoading}
                 on:click={logoutUser}
               >
-                Se déconnecter
+                {$_('logout')}
               </button>
             </svelte:fragment>
           </Dropdown>
