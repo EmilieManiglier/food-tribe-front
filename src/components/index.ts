@@ -2,6 +2,9 @@
 export { default as Modal } from '@/components/base/dialog/Modal.svelte';
 export { default as Button } from '@/components/base/Button.svelte';
 export { default as Icon } from '@/components/base/images/Icon.svelte';
+export { default as Navbar } from '@/components/base/navigation/Navbar.svelte';
+export { default as NavLink } from '@/components/base/navigation/NavLink.svelte';
+export { default as Dropdown } from '@/components/base/display-content/Dropdown.svelte';
 
 // Form components
 export { default as FormInput } from '@/components/base/form/FormInput.svelte';

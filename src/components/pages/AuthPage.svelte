@@ -5,16 +5,21 @@
   import { AuthLayout, LoginForm, RegisterForm } from '@/components';
   import type { ApiCallParams, User } from '@/definitions';
   import { routes } from '@/router';
-  import { useApi } from '@/store';
+  import { useApi, useCurrentUser } from '@/store';
+  import { _ } from '@/translations';
 
   const { call: loginCall, data: loginUser, loading: loginLoading } = useApi<User>();
-  const { call: registerCall, data: registerUser, loading: registerLoading } = useApi();
+  const {
+    call: registerCall,
+    data: registerUser,
+    loading: registerLoading
+  } = useApi<User>();
   const navigate = useNavigate();
   const location = useLocation();
+  const { currentUser } = useCurrentUser();
 
-  let pageName = $location.pathname.split('/').pop();
-  let isRegister = pageName === 'inscription';
-  let isLogin = pageName === 'connexion';
+  let isRegister = $location.pathname === routes.register.path;
+  let isLogin = $location.pathname === routes.login.path;
 
   const handleSubmit = async (form: any) => {
     if (isEmpty(form?.detail)) return;
@@ -32,8 +37,7 @@
 
     const user = $loginUser || $registerUser;
     if (user) {
-      // TODO : store token and user in encrypted cookies
-      localStorage.setItem('user', JSON.stringify(user));
+      currentUser.set(user);
       navigate(routes.home.path);
     }
   };
@@ -51,9 +55,9 @@
       <div class="bg-purple-300 h-px w-full" />
       <div class="translate-center-center bg-white whitespace-nowrap p-1">
         {#if isLogin}
-          Pas encore de compte&nbsp;?
+          {$_('login.alreadyRegistered')}
         {:else if isRegister}
-          Déjà inscrit&nbsp;?
+          {$_('register.notRegistered')}
         {/if}
       </div>
     </div>
@@ -61,11 +65,11 @@
     <div class="pt-12 text-center">
       {#if isLogin}
         <a href={routes.register.path} class="bg-purple-300 p-4 w-full block">
-          Créer un compte
+          {$_('register.createAccount')}
         </a>
       {:else if isRegister}
         <a href={routes.login.path} class="bg-purple-300 p-4 w-full block">
-          Se connecter
+          {$_('login.loginCta')}
         </a>
       {/if}
     </div>

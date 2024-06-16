@@ -21,5 +21,5 @@
     <use href={`${customIcons[name]}#icon-${name}`} />
   </svg>
 {:else}
-  <Fa icon={name} class={className} {size} />
+  <Fa icon={name} class="icon {className}" {size} />
 {/if}

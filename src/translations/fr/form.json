@@ -1,0 +1,15 @@
+{
+  "categories": "Catégories",
+  "city": "Ville",
+  "country": "Pays",
+  "email": "Email",
+  "firstname": "Prénom",
+  "lastname": "Nom",
+  "password": "Mot de passe",
+  "searchPlace": "Rechercher un lieu...",
+  "placeholders": {
+    "categories": "Sélectionner une ou plusieurs catégorie(s)"
+  },
+  "placeName": "Nom du lieu",
+  "zipCode": "Code postal"
+}

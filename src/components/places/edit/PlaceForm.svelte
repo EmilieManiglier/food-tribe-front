@@ -5,6 +5,7 @@
   import type { Category, Place } from '@/definitions';
   import { useApi } from '@/store';
   import { displayToast } from '@/helpers';
+  import { _ } from '@/translations';
 
   export let place: Place;
   export let categories: Category[] = place.categories || [];
@@ -52,13 +53,16 @@
 
     if (newPlace) {
       // Dispatch to parent
-      displayToast('success', `${form.name} a été ajouté avec succès`);
+      displayToast(
+        'success',
+        $_('place.create.success', { values: { name: form.name } })
+      );
       dispatch('created', { ...form, id: $newPlace?.id });
 
       // Reset form
       form = { name: '', lat: 0, lng: 0, categories: [] };
     } else {
-      displayToast('error', 'Une erreur est survenue lors de la création du lieu');
+      displayToast('error', $_('place.create.error'));
     }
   };
 
@@ -66,31 +70,35 @@
     await updatePlaceCall({ url: `/places/${form.id}`, method: 'put', params: form });
 
     if ($updateStatus === 200) {
-      displayToast('success', `${form.name} a été modifié avec succès`);
+      displayToast('success', $_('place.edit.success', { values: { name: form.name } }));
       dispatch('edited', form);
     } else {
-      displayToast('error', 'Une erreur est survenue lors de la modification du lieu');
+      displayToast('error', $_('place.edit.error'));
     }
   };
 </script>
 
 <form class="flex flex-col gap-y-8" on:submit|preventDefault={handleSubmit}>
-  <FormInput name="name" label="Nom du lieu" bind:value={form.name} required />
+  <FormInput name="name" label={$_('placeName')} bind:value={form.name} required />
 
   <FormSelect
     options={categories}
     name="categories"
     searchable
-    placeholder="Sélectionner une ou plusieurs catégorie(s)"
+    placeholder={$_('placeholders.categories')}
     multiple
-    selectLabel="Catégories"
+    selectLabel={$_('categories')}
     label="name"
     itemId="id"
     bind:value={form.categories}
   />
 
   <div class="flex-center-between mt-4">
-    <Button className="outlined" on:click={() => dispatch('close')}>Annuler</Button>
-    <Button type="submit" loading={$createLoading}>Valider</Button>
+    <Button className="outlined" on:click={() => dispatch('close')}>
+      {$_('buttons.cancel')}
+    </Button>
+    <Button type="submit" loading={$createLoading}>
+      {$_('buttons.validate')}
+    </Button>
   </div>
 </form>

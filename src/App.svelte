@@ -2,23 +2,33 @@
   import { Router, Route } from 'svelte-navigator';
   import { SvelteToast } from '@zerodevx/svelte-toast';
 
-  import { DesignSystemPage, HomePage } from '@/components';
+  import { DesignSystemPage, HomePage, Navbar, AuthPage } from '@/components';
   import { routes, PrivateRoute } from '@/router';
-  import AuthPage from '@/components/pages/AuthPage.svelte';
+  import { useCurrentUser } from '@/store';
+
+  const { currentUser } = useCurrentUser();
 </script>
 
-<main>
-  <SvelteToast />
+<Router basepath="/">
+  {#if $currentUser}
+    <Navbar />
+  {/if}
 
-  <Router basepath="/">
+  <main>
+    <SvelteToast />
+
     <!-- TODO : Show DesignSystem Route only in dev mode -->
     <Route path={routes.designSystem.path} component={DesignSystemPage} />
 
-    <Route path={routes.login.path} component={AuthPage} />
-    <Route path={routes.register.path} component={AuthPage} />
+    <Route path={routes.login.path}>
+      <AuthPage />
+    </Route>
+    <Route path={routes.register.path}>
+      <AuthPage />
+    </Route>
 
     <PrivateRoute path={routes.home.path} let:location>
       <HomePage />
     </PrivateRoute>
-  </Router>
-</main>
+  </main>
+</Router>

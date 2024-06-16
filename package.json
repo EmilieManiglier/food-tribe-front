@@ -42,6 +42,7 @@
     "axios": "^1.7.2",
     "lodash": "^4.17.21",
     "maplibre-gl": "^4.3.2",
+    "svelte-i18n": "^4.0.0",
     "svelte-navigator": "^3.2.2",
     "svelte-select": "^5.8.3"
   }

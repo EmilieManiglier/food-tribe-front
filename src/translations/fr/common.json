@@ -1,0 +1,10 @@
+{
+  "buttons": {
+    "cancel": "Annuler",
+    "confirm": "Confirmer",
+    "closeModal": "Fermer la modale",
+    "delete": "Supprimer",
+    "editPlace": "Éditer ce lieu",
+    "validate": "Valider"
+  }
+}

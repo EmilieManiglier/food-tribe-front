@@ -30,36 +30,53 @@
   {/if}
 </button>
 
-<style lang="postcss">
+<style lang="scss">
   .btn {
-    @apply p-4 bg-primary-500 text-white rounded-sm transition-colors duration-300 ease-in-out flex items-center gap-4;
+    padding: 1rem;
+    background-color: theme('colors.primary.500');
+    color: white;
+    transition: colors 300ms ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
 
     &:disabled,
     &.disabled {
-      @apply opacity-60 cursor-not-allowed;
+      opacity: 0.6;
+      cursor: not-allowed;
     }
 
     &:not(:disabled):hover {
-      @apply shadow-md bg-primary-600;
+      box-shadow:
+        0 0.25rem 0.38rem -0.06rem rgba(0, 0, 0, 0.1),
+        0 0.13rem 0.25rem -0.06rem rgba(0, 0, 0, 0.06);
+      background-color: theme('colors.primary.600');
     }
 
     &.small {
-      @apply px-4 py-2;
+      padding: 0.5rem 1rem;
     }
 
     &.outlined {
-      @apply bg-transparent border border-primary-500 text-primary-500;
+      background-color: transparent;
+      border: 0.06rem solid theme('colors.primary.500');
+      color: theme('colors.primary.500');
 
       &:not(:disabled):hover {
-        @apply bg-primary-500 text-white;
+        background-color: theme('colors.primary.500');
+        color: white;
       }
     }
 
     &.empty {
-      @apply bg-transparent text-gray-700;
+      background-color: transparent;
+      color: theme('colors.gray.700');
 
       &:not(:disabled):hover {
-        @apply bg-transparent text-primary-600 shadow-none;
+        background-color: transparent;
+        color: theme('colors.primary.600');
+        box-shadow: none;
       }
     }
   }
