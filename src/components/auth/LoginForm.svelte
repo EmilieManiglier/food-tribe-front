@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
-  import { FormInput } from '@/components';
+  import { Button, FormInput } from '@/components';
 
   export let loading = false;
   let form = { email: '', password: '' };
@@ -30,5 +30,5 @@
     className="mb-5"
   />
 
-  <button type="submit" class="btn w-full" disabled={loading}>Valider</button>
+  <Button type="submit" className="w-full" disabled={loading}>Valider</Button>
 </form>

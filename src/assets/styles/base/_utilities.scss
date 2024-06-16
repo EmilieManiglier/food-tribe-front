@@ -14,4 +14,16 @@
 	.translate-center-center {
 		@apply absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2;
 	}
+
+	.truncate-line {
+    /* stylelint-disable value-no-vendor-prefix, property-no-vendor-prefix */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+
+    &.two-lines {
+      -webkit-line-clamp: 2;
+    }
+    /* stylelint-enable value-no-vendor-prefix, property-no-vendor-prefix */
+  }
 }

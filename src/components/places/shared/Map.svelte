@@ -153,7 +153,12 @@
 
   {#if mapController}
     <div class="geocoding">
-      <GeocodingControl {mapController} apiKey={config.apiKey} {maplibregl} />
+      <GeocodingControl
+        {mapController}
+        apiKey={config.apiKey}
+        language="fr"
+        placeholder="Rechercher un lieu..."
+      />
     </div>
   {/if}
 </div>

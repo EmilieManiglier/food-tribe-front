@@ -5,16 +5,20 @@
   import { AuthLayout, LoginForm, RegisterForm } from '@/components';
   import type { ApiCallParams, User } from '@/definitions';
   import { routes } from '@/router';
-  import { useApi } from '@/store';
+  import { useApi, useCurrentUser } from '@/store';
 
   const { call: loginCall, data: loginUser, loading: loginLoading } = useApi<User>();
-  const { call: registerCall, data: registerUser, loading: registerLoading } = useApi();
+  const {
+    call: registerCall,
+    data: registerUser,
+    loading: registerLoading
+  } = useApi<User>();
   const navigate = useNavigate();
   const location = useLocation();
+  const { currentUser } = useCurrentUser();
 
-  let pageName = $location.pathname.split('/').pop();
-  let isRegister = pageName === 'inscription';
-  let isLogin = pageName === 'connexion';
+  let isRegister = $location.pathname === routes.register.path;
+  let isLogin = $location.pathname === routes.login.path;
 
   const handleSubmit = async (form: any) => {
     if (isEmpty(form?.detail)) return;
@@ -32,8 +36,7 @@
 
     const user = $loginUser || $registerUser;
     if (user) {
-      // TODO : store token and user in encrypted cookies
-      localStorage.setItem('user', JSON.stringify(user));
+      currentUser.set(user);
       navigate(routes.home.path);
     }
   };
