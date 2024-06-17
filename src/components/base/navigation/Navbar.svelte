@@ -2,9 +2,8 @@
   import {
     faChevronDown,
     faHouse,
-    faKitchenSet,
-    faUserGroup,
-    faUtensils
+    faMapLocationDot,
+    faUsers
   } from '@fortawesome/free-solid-svg-icons';
   import { useNavigate } from 'svelte-navigator';
 
@@ -27,7 +26,7 @@
       currentUser.set(null);
       navigate(routes.login.path);
     } else {
-      displayToast('error', 'Une erreur est survenue, veuillez réessayer plus tard');
+      displayToast('error', $_('logout.error'));
     }
   };
 </script>
@@ -52,16 +51,19 @@
         <a href="/" class="h1 hidden lg:block lg:p-6 lg:pb-12">Food Tribe</a>
 
         <li>
-          <NavLink to={routes.home.path} icon={faHouse}>Dashboard</NavLink>
+          <NavLink to={routes.home.path} icon={faHouse}>
+            {$_('navigation.dashboard')}
+          </NavLink>
         </li>
         <li>
-          <NavLink to="/places" icon={faUtensils}>Favoris</NavLink>
+          <NavLink to="/places" icon={faMapLocationDot}>
+            {$_('navigation.places')}
+          </NavLink>
         </li>
         <li>
-          <NavLink to="/cuisines" icon={faKitchenSet}>Cuisines</NavLink>
-        </li>
-        <li>
-          <NavLink to="/amis" icon={faUserGroup}>Amis</NavLink>
+          <NavLink to={routes.friendGroups.path} icon={faUsers}>
+            {$_('navigation.friendGroups')}
+          </NavLink>
         </li>
       </div>
       {#if $currentUser}
@@ -93,7 +95,7 @@
                 disabled={$logoutLoading}
                 on:click={logoutUser}
               >
-                {$_('logout')}
+                {$_('logout.logoutCta')}
               </button>
             </svelte:fragment>
           </Dropdown>

@@ -6,5 +6,10 @@
     "delete": "Supprimer",
     "editPlace": "Éditer ce lieu",
     "validate": "Valider"
+  },
+  "navigation": {
+    "dashboard": "Tableau de bord",
+    "places": "Adresses enregistrées",
+    "friendGroups": "Groupes & Amis"
   }
 }
