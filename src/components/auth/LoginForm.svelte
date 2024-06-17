@@ -20,14 +20,14 @@
     bind:value={form.email}
     name="email"
     type="email"
-    label={$_('email')}
+    label={$_('form.email')}
     className="mb-5"
   />
   <FormInput
     bind:value={form.password}
     name="password"
     type="password"
-    label={$_('password')}
+    label={$_('form.password')}
     className="mb-5"
   />
 

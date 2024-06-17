@@ -1,15 +1,21 @@
 {
-  "categories": "Catégories",
-  "city": "Ville",
-  "country": "Pays",
-  "email": "Email",
-  "firstname": "Prénom",
-  "lastname": "Nom",
-  "password": "Mot de passe",
-  "searchPlace": "Rechercher un lieu...",
-  "placeholders": {
-    "categories": "Sélectionner une ou plusieurs catégorie(s)"
-  },
-  "placeName": "Nom du lieu",
-  "zipCode": "Code postal"
+  "form": {
+    "categories": "Catégories",
+    "city": "Ville",
+    "country": "Pays",
+    "description": "Description",
+    "email": "Email",
+    "firstname": "Prénom",
+    "friendGroup": "Groupe d'amis",
+    "lastname": "Nom",
+    "optional": "Facultatif",
+    "password": "Mot de passe",
+    "placeholders": {
+      "categories": "Sélectionner une ou plusieurs catégorie(s)",
+      "friendGroup": "Sélectionner un groupe d'amis"
+    },
+    "placeName": "Nom du lieu",
+    "searchPlace": "Rechercher un lieu...",
+    "zipCode": "Code postal"
+  }
 }

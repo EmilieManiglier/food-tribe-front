@@ -6,6 +6,8 @@ export {
   Place,
   PlaceModals,
   PlaceModalType,
-  PlacesContextValue
+  PlacesContextValue,
+  GetPlaceCallOptions
 } from '@/definitions/places';
 export { Option } from '@/definitions/form';
+export { FriendGroup, FriendGroupContextValue } from '@/definitions/friend-group';

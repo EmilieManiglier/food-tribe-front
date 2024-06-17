@@ -8,7 +8,8 @@
     Place,
     PlaceModalType,
     PlaceModals,
-    PlacesContextValue
+    PlacesContextValue,
+    GetPlaceCallOptions
   } from '@/definitions';
   import { useApi } from '@/store';
   import { displayToast } from '@/helpers';
@@ -29,8 +30,11 @@
     status: deleteStatus
   } = useApi();
 
-  const getPlaces = async () => {
-    await placesCall({ url: '/places', method: 'get' });
+  const getPlaces = async (options: GetPlaceCallOptions = {}) => {
+    const { friendGroupId } = options;
+    let url = '/places';
+    if (friendGroupId) url += `?friendGroupId=${friendGroupId}`;
+    await placesCall({ url, method: 'get' });
   };
 
   const getCategories = async () => {

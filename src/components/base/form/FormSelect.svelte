@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { createEventDispatcher } from 'svelte';
   import SvelteSelect from 'svelte-select';
 
   import type { Option } from '@/definitions';
@@ -12,16 +13,20 @@
   export let loading = false;
   export let showChevron = true;
   export let searchable = false;
+  export let clearable = true;
   export let multiple = false;
   export let itemId: 'value' | 'id' = 'value';
   export let label: 'label' | 'name' = 'label';
 
+  const dispatch = createEventDispatcher();
+
   const handleChange = (event: CustomEvent) => {
     value = event.detail;
+    dispatch('change', event.detail);
   };
 </script>
 
-<div class="form-select">
+<div class="form-select {$$props.class}">
   {#if selectLabel}
     <span class="label">{selectLabel}</span>
   {/if}
@@ -33,6 +38,7 @@
     {loading}
     {showChevron}
     {searchable}
+    {clearable}
     {placeholder}
     {multiple}
     {label}
@@ -53,7 +59,6 @@
 
   .form-select {
     --background: theme('colors.purple.200');
-    --height: 3.5rem;
     --border-radius: 0;
     --input-padding: 0;
     --placeholder-color: theme('colors.purple.500');

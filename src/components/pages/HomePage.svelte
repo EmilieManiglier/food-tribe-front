@@ -1,7 +1,9 @@
 <script lang="ts">
-  import { Map, PlacesContext } from '@/components';
+  import { FriendGroupsContext, Map, PlacesContext } from '@/components';
 </script>
 
-<PlacesContext>
-  <Map />
-</PlacesContext>
+<FriendGroupsContext>
+  <PlacesContext>
+    <Map />
+  </PlacesContext>
+</FriendGroupsContext>

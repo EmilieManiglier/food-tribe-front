@@ -9,6 +9,7 @@ export { default as Dropdown } from '@/components/base/display-content/Dropdown.
 // Form components
 export { default as FormInput } from '@/components/base/form/FormInput.svelte';
 export { default as FormSelect } from '@/components/base/form/FormSelect.svelte';
+export { default as FormTextArea } from '@/components/base/form/FormTextArea.svelte';
 
 // Auth components
 export { default as AuthLayout } from '@/components/auth/AuthLayout.svelte';
@@ -24,3 +25,6 @@ export { default as AuthPage } from '@/components/pages/AuthPage.svelte';
 export { default as Map } from '@/components/places/shared/Map.svelte';
 export { default as PlaceForm } from '@/components/places/edit/PlaceForm.svelte';
 export { default as PlacesContext } from '@/components/places/shared/PlacesContext.svelte';
+
+// Friend Groups
+export { default as FriendGroupsContext } from '@/components/friend-groups/shared/FriendGroupsContext.svelte';
