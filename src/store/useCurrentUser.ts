@@ -19,9 +19,14 @@ const currentUser = {
   get: (): User | null => get(user)
 };
 
+const isLoggedIn = (): boolean => {
+  return !isEmpty(get(user));
+};
+
 export const useCurrentUser = () => {
   return {
     currentUser,
+    isLoggedIn,
     initials: (): string => {
       const currentUser = get(user);
       if (currentUser) {

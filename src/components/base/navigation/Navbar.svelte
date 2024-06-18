@@ -5,17 +5,16 @@
     faMapLocationDot,
     faUsers
   } from '@fortawesome/free-solid-svg-icons';
-  import { useNavigate } from 'svelte-navigator';
+  import { push } from 'svelte-spa-router';
 
   import { Avatar, Dropdown, Icon, NavLink } from '@/components';
-  import { routes } from '@/router';
+  import { paths } from '@/router';
   import { useApi, useCurrentUser } from '@/store';
   import { displayToast } from '@/helpers';
   import { _ } from '@/translations';
 
   let menuOpen = false;
 
-  const navigate = useNavigate();
   const { currentUser } = useCurrentUser();
   const { call: logoutCall, status: logoutStatus, loading: logoutLoading } = useApi();
 
@@ -24,7 +23,7 @@
     if ($logoutStatus === 200) {
       if (menuOpen) menuOpen = false;
       currentUser.set(null);
-      navigate(routes.login.path);
+      push(paths.login.path);
     } else {
       displayToast('error', $_('logout.error'));
     }
@@ -51,7 +50,7 @@
         <a href="/" class="h1 hidden lg:block lg:p-6 lg:pb-12">Food Tribe</a>
 
         <li>
-          <NavLink to={routes.home.path} icon={faHouse}>
+          <NavLink to={paths.home.path} icon={faHouse}>
             {$_('navigation.dashboard')}
           </NavLink>
         </li>
@@ -61,7 +60,7 @@
           </NavLink>
         </li>
         <li>
-          <NavLink to={routes.friendGroups.path} icon={faUsers}>
+          <NavLink to={paths.friendGroups.path} icon={faUsers}>
             {$_('navigation.friendGroups')}
           </NavLink>
         </li>

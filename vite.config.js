@@ -12,7 +12,6 @@ export default defineConfig({
     }),
     viteTsconfigPaths()
   ],
-  optimizeDeps: { exclude: ['svelte-navigator'] },
   resolve: {
     dedupe: ['svelte'],
     alias: {

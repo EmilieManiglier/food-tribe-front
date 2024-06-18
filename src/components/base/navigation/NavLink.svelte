@@ -1,31 +1,25 @@
 <script lang="ts">
-  import { Icon } from '@/components';
   import type { IconDefinition } from '@fortawesome/free-solid-svg-icons';
+  import { link, location } from 'svelte-spa-router';
 
-  import { useLocation } from 'svelte-navigator';
+  import { Icon } from '@/components';
 
   export let icon: IconDefinition | null = null;
   export let to: string;
-
-  let activeRoute: string = '';
-
-  const location = useLocation();
-
-  $: activeRoute = $location.pathname;
 </script>
 
-<svelte:element
-  this={activeRoute === to ? 'span' : 'a'}
+<a
   href={to}
-  class="nav-link {activeRoute === to && 'active'}"
+  class="nav-link {$location === to && 'active'}"
+  use:link={{ href: to, disabled: $location === to }}
 >
   <Icon
     name={icon}
-    className={activeRoute === to ? 'text-primary-500' : 'text-purple-500'}
+    className={$location === to ? 'text-primary-500' : 'text-purple-500'}
     size="lg"
   />
   <slot />
-</svelte:element>
+</a>
 
 <style lang="scss">
   .nav-link {

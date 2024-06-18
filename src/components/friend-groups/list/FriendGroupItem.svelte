@@ -5,9 +5,12 @@
     faPenToSquare,
     faTrashAlt
   } from '@fortawesome/free-solid-svg-icons';
+  import { link, push } from 'svelte-spa-router';
+
   import { Avatar, Dropdown, Icon } from '@/components';
   import type { FriendGroup } from '@/definitions';
   import { _ } from '@/translations';
+  import { paths } from '@/router';
 
   export let group: FriendGroup;
   export let adminName: string = '';
@@ -24,14 +27,19 @@
       </div>
 
       <div slot="dropdown-content" class="min-w-[12rem]">
+        <!-- TODO : handle dropdown actions -->
         <button class="w-full px-4 py-2 flex items-center gap-2 hover:bg-purple-200">
           <Icon name={faEye} />
           {$_('friendGroup.actions.members')}
         </button>
-        <button class="w-full px-4 py-2 flex items-center gap-2 hover:bg-purple-200">
+        <a
+          href={`${paths.friendGroupsEdit.shortPath}/${group.id}`}
+          use:link
+          class="w-full px-4 py-2 flex items-center gap-2 hover:bg-purple-200"
+        >
           <Icon name={faPenToSquare} />
           {$_('buttons.edit')}
-        </button>
+        </a>
         <button class="w-full px-4 py-2 flex items-center gap-2 hover:bg-purple-200">
           <Icon name={faTrashAlt} className="text-red-500" />
           {$_('buttons.delete')}
@@ -63,7 +71,9 @@
         0
       {/if}
     </span>
-    <span class="inline-block">{$_('friendGroup.members')}</span>
+    <span class="inline-block">
+      {$_('friendGroup.members', { values: { n: group.users?.length || 1 } })}
+    </span>
   </div>
 
   {#if group.users && group.users.length > 0}

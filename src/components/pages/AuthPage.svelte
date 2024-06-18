@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { useLocation, useNavigate } from 'svelte-navigator';
+  import { push, location } from 'svelte-spa-router';
   import { isEmpty } from 'lodash';
 
   import { AuthLayout, LoginForm, RegisterForm } from '@/components';
   import type { ApiCallParams, User } from '@/definitions';
-  import { routes } from '@/router';
+  import { paths } from '@/router';
   import { useApi, useCurrentUser } from '@/store';
   import { _ } from '@/translations';
 
@@ -14,12 +14,10 @@
     data: registerUser,
     loading: registerLoading
   } = useApi<User>();
-  const navigate = useNavigate();
-  const location = useLocation();
   const { currentUser } = useCurrentUser();
 
-  let isRegister = $location.pathname === routes.register.path;
-  let isLogin = $location.pathname === routes.login.path;
+  let isRegister = $location === paths.register.path;
+  let isLogin = $location === paths.login.path;
 
   const handleSubmit = async (form: any) => {
     if (isEmpty(form?.detail)) return;
@@ -38,7 +36,7 @@
     const user = $loginUser || $registerUser;
     if (user) {
       currentUser.set(user);
-      navigate(routes.home.path);
+      push(paths.home.path);
     }
   };
 </script>
@@ -64,11 +62,11 @@
 
     <div class="pt-12 text-center">
       {#if isLogin}
-        <a href={routes.register.path} class="bg-purple-300 p-4 w-full block">
+        <a href={paths.register.path} class="bg-purple-300 p-4 w-full block">
           {$_('register.createAccount')}
         </a>
       {:else if isRegister}
-        <a href={routes.login.path} class="bg-purple-300 p-4 w-full block">
+        <a href={paths.login.path} class="bg-purple-300 p-4 w-full block">
           {$_('login.loginCta')}
         </a>
       {/if}

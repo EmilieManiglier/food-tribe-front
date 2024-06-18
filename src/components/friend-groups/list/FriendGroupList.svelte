@@ -4,8 +4,9 @@
   import { getContext, onMount } from 'svelte';
 
   import type { FriendGroupContextValue, User } from '@/definitions';
-  import { Button, FriendGroupItem, Icon } from '@/components';
+  import { FriendGroupItem, Icon } from '@/components';
   import { _ } from '@/translations';
+  import { paths } from '@/router';
 
   let skeletonsArray = Array.from({ length: 5 }, (_, i) => i + 1);
 
@@ -27,10 +28,10 @@
   <div class="flex-center-between flex-wrap mb-12">
     <h2 class="h2">{$_('friendGroup.groups')}</h2>
 
-    <Button>
+    <a href={paths.friendGroupsCreate.path} class="btn block">
       {$_('friendGroup.create.cta')}
       <Icon name={faPlus} />
-    </Button>
+    </a>
   </div>
 
   {#if $friendGroupsLoading}
@@ -44,7 +45,7 @@
 
   {#if !$friendGroupsLoading}
     {#if !isEmpty($friendGroups)}
-      <div class="flex items-center gap-4">
+      <div class="flex flex-wrap items-center gap-4">
         {#each $friendGroups as group, index}
           <FriendGroupItem {group} adminName={getAdminName(index)} />
         {/each}
