@@ -7,6 +7,7 @@
     "email": "Email",
     "firstname": "Prénom",
     "friendGroup": "Groupe d'amis",
+    "friendGroupName": "Nom du groupe",
     "lastname": "Nom",
     "optional": "Facultatif",
     "password": "Mot de passe",

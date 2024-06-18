@@ -20,11 +20,13 @@ export const pages = {
   }),
   [paths.friendGroupsCreate.path]: wrap({
     asyncComponent: () => import('@/components/pages/FriendGroupFormPage.svelte'),
-    conditions: [isLoggedIn]
+    conditions: [isLoggedIn],
+    props: { edit: false }
   }),
   [paths.friendGroupsEdit.path]: wrap({
     asyncComponent: () => import('@/components/pages/FriendGroupFormPage.svelte'),
-    conditions: [isLoggedIn]
+    conditions: [isLoggedIn],
+    props: { edit: true }
   }),
   [paths.register.path]: wrap({
     asyncComponent: () => import('@/components/pages/AuthPage.svelte')

@@ -64,13 +64,14 @@
   const initFriendGroups = async () => {
     await getFriendGroups();
 
-    if ($friendGroups?.length > 0) {
+    if ($friendGroups && $friendGroups?.length > 0) {
       selectFriendGroup = $friendGroups[0];
       getPlacesAndCategories();
     }
   };
 
   const getPlacesAndCategories = async () => {
+    if (!$friendGroups?.[0]) return;
     await getPlaces({ friendGroupId: $friendGroups[0].id });
     if ($places?.length > 0) initMarkers();
 
@@ -200,7 +201,7 @@
       />
     {/if}
 
-    {#if $friendGroups?.length > 0}
+    {#if $friendGroups && $friendGroups.length > 0}
       <FormSelect
         name="friendGroupId"
         options={$friendGroups}

@@ -2,6 +2,7 @@
   import { faPlus } from '@fortawesome/free-solid-svg-icons';
   import { isEmpty } from 'lodash';
   import { getContext, onMount } from 'svelte';
+  import { link } from 'svelte-spa-router';
 
   import type { FriendGroupContextValue, User } from '@/definitions';
   import { FriendGroupItem, Icon } from '@/components';
@@ -16,6 +17,7 @@
   onMount(() => getFriendGroups());
 
   const getAdminName = (index: number): string => {
+    if (!$friendGroups?.[index]?.admin) return '';
     const admin = $friendGroups[index].users?.find(
       (user: User) => user.id === $friendGroups[index].admin
     );
@@ -28,7 +30,7 @@
   <div class="flex-center-between flex-wrap mb-12">
     <h2 class="h2">{$_('friendGroup.groups')}</h2>
 
-    <a href={paths.friendGroupsCreate.path} class="btn block">
+    <a use:link href={paths.friendGroupsCreate.path} class="btn block">
       {$_('friendGroup.create.cta')}
       <Icon name={faPlus} />
     </a>
@@ -44,7 +46,7 @@
   {/if}
 
   {#if !$friendGroupsLoading}
-    {#if !isEmpty($friendGroups)}
+    {#if $friendGroups && !isEmpty($friendGroups)}
       <div class="flex flex-wrap items-center gap-4">
         {#each $friendGroups as group, index}
           <FriendGroupItem {group} adminName={getAdminName(index)} />

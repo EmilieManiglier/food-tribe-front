@@ -5,15 +5,28 @@
     faPenToSquare,
     faTrashAlt
   } from '@fortawesome/free-solid-svg-icons';
-  import { link, push } from 'svelte-spa-router';
+  import { link } from 'svelte-spa-router';
+  import { getContext } from 'svelte';
 
-  import { Avatar, Dropdown, Icon } from '@/components';
-  import type { FriendGroup } from '@/definitions';
+  import { Avatar, Button, Dropdown, Icon, Modal } from '@/components';
+  import type { FriendGroupContextValue, FriendGroup } from '@/definitions';
   import { _ } from '@/translations';
   import { paths } from '@/router';
+  import { useCurrentUser } from '@/store';
 
   export let group: FriendGroup;
   export let adminName: string = '';
+
+  let deleteModalOpen = false;
+
+  const { currentUser } = useCurrentUser();
+  const { deleteFriendGroup } = getContext<FriendGroupContextValue>('friend-groups');
+
+  const onDeleteFriendGroup = async () => {
+    if (!group.id) return;
+    await deleteFriendGroup(group.id);
+    deleteModalOpen = false;
+  };
 </script>
 
 <div
@@ -40,10 +53,16 @@
           <Icon name={faPenToSquare} />
           {$_('buttons.edit')}
         </a>
-        <button class="w-full px-4 py-2 flex items-center gap-2 hover:bg-purple-200">
-          <Icon name={faTrashAlt} className="text-red-500" />
-          {$_('buttons.delete')}
-        </button>
+        {#if $currentUser?.id === group.admin}
+          <button
+            type="button"
+            class="w-full px-4 py-2 flex items-center gap-2 hover:bg-purple-200"
+            on:click={() => (deleteModalOpen = true)}
+          >
+            <Icon name={faTrashAlt} className="text-red-500" />
+            {$_('buttons.delete')}
+          </button>
+        {/if}
       </div>
     </Dropdown>
   </div>
@@ -91,3 +110,30 @@
     </div>
   {/if}
 </div>
+
+<!-- Delete Modal -->
+<Modal bind:open={deleteModalOpen} size="small">
+  <p slot="header" class="h2">{group.name}</p>
+
+  <div slot="body" class="my-12 text-center">
+    <div class="flex-center-center bg-red-100 p-4 rounded-full w-14 h-14 mx-auto mb-4">
+      <Icon name={faTrashAlt} size="lg" className="text-red-500" />
+    </div>
+
+    <p class="font-bold mb-2">
+      {$_('friendGroup.delete.title')}
+    </p>
+
+    <p>{$_('friendGroup.delete.content')}</p>
+  </div>
+
+  <div slot="footer" class="flex items-center justify-between">
+    <Button className="small outlined" on:click={() => (deleteModalOpen = false)}>
+      {$_('buttons.cancel')}
+    </Button>
+
+    <Button className="small" on:click={onDeleteFriendGroup}>
+      {$_('buttons.confirm')}
+    </Button>
+  </div>
+</Modal>

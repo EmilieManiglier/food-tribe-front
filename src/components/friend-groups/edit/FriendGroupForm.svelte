@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { getContext, onMount } from 'svelte';
-  import { push } from 'svelte-spa-router';
+  import { getContext } from 'svelte';
+  import { push, params } from 'svelte-spa-router';
+  import { toString, isEmpty } from 'lodash';
 
   import { Button, FormInput, FormTextArea } from '@/components';
   import type { FriendGroupContextValue, FriendGroup } from '@/definitions';
-  import { displayToast } from '@/helpers';
   import { paths } from '@/router';
   import { useApi, useCurrentUser } from '@/store';
   import { _ } from '@/translations';
@@ -17,15 +17,28 @@
   };
 
   const { currentUser } = useCurrentUser();
-  const { getFriendGroup } = getContext<FriendGroupContextValue>('friend-groups');
-  const { call: createGroupCall, status: createGroupStatus } = useApi<FriendGroup>();
-
-  onMount(() => {
-    if (edit) prefillForm();
+  const { getFriendGroup, friendGroup } =
+    getContext<FriendGroupContextValue>('friend-groups');
+  const { call: createGroupCall, status: createGroupStatus } = useApi<FriendGroup>({
+    successMessage: $_('friendGroup.create.success'),
+    errorMessage: $_('friendGroup.create.error')
+  });
+  const { call: editGroupCall, status: editGroupStatus } = useApi<FriendGroup>({
+    successMessage: $_('friendGroup.edit.success'),
+    errorMessage: $_('friendGroup.edit.error')
   });
 
-  const prefillForm = () => {
+  $: {
+    if (edit && $params?.groupId && isEmpty($friendGroup)) {
+      getEditDatas(toString($params.groupId));
+    }
+  }
+
+  const getEditDatas = async (id: number) => {
+    await getFriendGroup(id);
+
     // Prefill form with group data to edit
+    if ($friendGroup) form = $friendGroup;
   };
 
   const handleSubmit = () => {
@@ -39,19 +52,13 @@
 
   const createGroup = async () => {
     setGroupAdmin();
-    console.log(form);
     await createGroupCall({ url: '/friendGroups', method: 'post', params: form });
-
-    if ($createGroupStatus === 201) {
-      push(paths.friendGroups.path);
-      displayToast('success', $_('friendGroup.create.success'));
-    } else {
-      displayToast('error', $_('friendGroup.create.error'));
-    }
+    if ($createGroupStatus === 201) push(paths.friendGroups.path);
   };
 
-  const updateGroup = () => {
-    console.log('update', form);
+  const updateGroup = async () => {
+    await editGroupCall({ url: `/friendGroups/${form.id}`, method: 'put', params: form });
+    if ($editGroupStatus === 200) push(paths.friendGroups.path);
   };
 </script>
 
