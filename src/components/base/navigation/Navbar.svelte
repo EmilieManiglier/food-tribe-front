@@ -7,7 +7,7 @@
   } from '@fortawesome/free-solid-svg-icons';
   import { useNavigate } from 'svelte-navigator';
 
-  import { Dropdown, Icon, NavLink } from '@/components';
+  import { Avatar, Dropdown, Icon, NavLink } from '@/components';
   import { routes } from '@/router';
   import { useApi, useCurrentUser } from '@/store';
   import { displayToast } from '@/helpers';
@@ -16,7 +16,7 @@
   let menuOpen = false;
 
   const navigate = useNavigate();
-  const { currentUser, initials } = useCurrentUser();
+  const { currentUser } = useCurrentUser();
   const { call: logoutCall, status: logoutStatus, loading: logoutLoading } = useApi();
 
   const logoutUser = async () => {
@@ -82,9 +82,7 @@
                 <Icon name={faChevronDown} className="dropdown-icon" />
               </div>
 
-              <div class="bg-primary-500 rounded-full p-4 w-12 h-12 flex-center-center">
-                {initials()}
-              </div>
+              <Avatar user={$currentUser} />
             </div>
 
             <svelte:fragment slot="dropdown-content">

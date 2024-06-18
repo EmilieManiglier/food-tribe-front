@@ -1,8 +1,11 @@
 <script lang="ts">
+  import { faPlus } from '@fortawesome/free-solid-svg-icons';
   import { isEmpty } from 'lodash';
   import { getContext, onMount } from 'svelte';
+
   import type { FriendGroupContextValue, User } from '@/definitions';
-  import { FriendGroupItem } from '@/components';
+  import { Button, FriendGroupItem, Icon } from '@/components';
+  import { _ } from '@/translations';
 
   let skeletonsArray = Array.from({ length: 5 }, (_, i) => i + 1);
 
@@ -21,7 +24,14 @@
 </script>
 
 <div class="main-container bg-purple-200 min-h-screen">
-  <h2 class="h2 mb-12">Mes groupes</h2>
+  <div class="flex-center-between flex-wrap mb-12">
+    <h2 class="h2">{$_('friendGroup.groups')}</h2>
+
+    <Button>
+      {$_('friendGroup.create.cta')}
+      <Icon name={faPlus} />
+    </Button>
+  </div>
 
   {#if $friendGroupsLoading}
     {#each skeletonsArray as _}
@@ -40,7 +50,9 @@
         {/each}
       </div>
     {:else}
-      <p class="text-center">Vous n'avez pas encore de groupe.</p>
+      <p class="text-center">
+        {$_('friendGroups.noGroups')}
+      </p>
     {/if}
   {/if}
 </div>

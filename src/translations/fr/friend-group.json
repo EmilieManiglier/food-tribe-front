@@ -1,0 +1,15 @@
+{
+  "friendGroup": {
+    "actions": {
+      "members": "Voir les membres",
+      "see": "Voir les actions"
+    },
+    "create": {
+      "cta": "Créer un groupe"
+    },
+    "createdBy": "Créé par {name}",
+    "groups": "Mes groupes",
+    "members": "Membres",
+    "noGroup": "Vous n'avez pas encore de groupe"
+  }
+}
