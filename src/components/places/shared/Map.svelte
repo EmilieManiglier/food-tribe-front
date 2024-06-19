@@ -1,5 +1,7 @@
 <script lang="ts">
-  import { onMount, getContext } from 'svelte';
+  import { onMount, getContext, onDestroy } from 'svelte';
+  import { querystring } from 'svelte-spa-router';
+  import { isEmpty, has } from 'lodash';
   import { Map, Marker, MapStyle, config } from '@maptiler/sdk';
   import GeocodingControl from '@maptiler/geocoding-control/svelte/GeocodingControl.svelte';
   import { createMapLibreGlMapController } from '@maptiler/geocoding-control/maplibregl';
@@ -19,12 +21,11 @@
   import { Button, FormSelect, Icon, Modal, PlaceForm } from '@/components';
   import { _ } from '@/translations';
 
-  export let initialState: MapOptionState = {
+  let initialState: MapOptionState = {
     lat: 45.76,
     lng: 4.87,
     zoom: 14
   };
-
   let map: Map;
   let mapContainer: HTMLElement;
   let mapController: any;
@@ -48,31 +49,29 @@
   const { getFriendGroups, friendGroups } =
     getContext<FriendGroupContextValue>('friend-groups');
 
-  onMount(() => {
-    initFriendGroups();
-    initMap();
+  onMount(() => initMapDatas());
 
-    // Add map listener to open marker modal to show place or create a new one
-    map.on('click', (event) => openMarkerModal(event.lngLat, event.point));
-
-    return () => {
-      // Destroy map instance when component is destroyed
-      map.remove();
-    };
+  onDestroy(() => {
+    map?.remove();
   });
 
-  const initFriendGroups = async () => {
+  const initMapDatas = async () => {
     await getFriendGroups();
-
-    if ($friendGroups && $friendGroups?.length > 0) {
-      selectFriendGroup = $friendGroups[0];
-      getPlacesAndCategories();
-    }
+    parseQueryParams();
+    initMap();
+    getPlacesAndCategories();
   };
 
   const getPlacesAndCategories = async () => {
-    if (!$friendGroups?.[0]) return;
-    await getPlaces({ friendGroupId: $friendGroups[0].id });
+    let requestParams = {};
+    const searchParams = new URLSearchParams($querystring);
+    const groupId = searchParams.get('friendGroupId');
+    if (groupId) {
+      requestParams = { friendGroupId: groupId };
+    } else if ($friendGroups && $friendGroups?.length > 0) {
+      requestParams = { friendGroupId: $friendGroups[0].id };
+    }
+    await getPlaces(requestParams);
     if ($places?.length > 0) initMarkers();
 
     // Categories don't need to be fetched first because it is used to display
@@ -80,7 +79,7 @@
     getCategories();
   };
 
-  const initMap = () => {
+  const initMap = (): void => {
     map = new Map({
       container: mapContainer,
       style: MapStyle.STREETS,
@@ -90,6 +89,9 @@
     });
 
     mapController = createMapLibreGlMapController(map, maplibregl);
+
+    // Add map listener to open marker modal to show place or create a new one
+    map.on('click', (event) => openMarkerModal(event.lngLat, event.point));
   };
 
   const initMarkers = (): void => {
@@ -102,7 +104,7 @@
     });
   };
 
-  const setMarkerPlace = (marker: MapMarker, place: Place) => {
+  const setMarkerPlace = (marker: MapMarker, place: Place): void => {
     marker.place = {
       id: place.id,
       name: place.name,
@@ -112,6 +114,33 @@
       description: place.description,
       friendGroupId: place.friendGroupId
     };
+  };
+
+  const parseQueryParams = () => {
+    if (isEmpty($querystring)) return;
+    const params = new URLSearchParams($querystring);
+    const searchParamsObj = Object.fromEntries(params.entries());
+    if (has(searchParamsObj, 'lat') && has(searchParamsObj, 'lng')) {
+      initialState = {
+        lat: Number(searchParamsObj.lat),
+        lng: Number(searchParamsObj.lng),
+        zoom: 18
+      };
+    }
+
+    if (has(searchParamsObj, 'friendGroupId')) {
+      const friendGroup = $friendGroups?.find(
+        (group) => group.id === Number(searchParamsObj.friendGroupId)
+      );
+
+      if (friendGroup) {
+        selectFriendGroup = { id: friendGroup.id, name: friendGroup.name };
+      }
+    } else {
+      if ($friendGroups && $friendGroups?.length > 0) {
+        selectFriendGroup = $friendGroups[0];
+      }
+    }
   };
 
   const openMarkerModal = (

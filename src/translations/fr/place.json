@@ -16,6 +16,7 @@
       "title": "Modifier {name}"
     },
     "noPlace": "Vous n'avez pas encore ajouté de lieu dans votre liste",
+    "seeOnMap": "Voir sur la carte",
     "title": "Addresses enregistrées"
   }
 }
