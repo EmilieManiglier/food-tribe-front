@@ -137,20 +137,28 @@
 
   const addMarkerFromForm = (event: CustomEvent): void => {
     closeModals();
-    // Add marker only if the place belongs to the selected friend group
-    // The new marker will be visible on selectFriendGroup change
-    if (event.detail.friendGroupId !== selectFriendGroup.id) return;
-    const newMarker: MapMarker = new Marker()
-      .setLngLat({ lat: event.detail.lat, lng: event.detail.lng })
-      .addTo(map);
-    newMarker.place = {
-      id: event.detail.id,
-      name: event.detail.name,
-      categories: event.detail.categories,
-      lat: event.detail.lat,
-      lng: event.detail.lng
-    };
-    markers = [...markers, newMarker];
+    // If the new place is not in the selected friend group, don't add it
+    // Instead, update the select to display the group of the new place
+    // Else, add the new marker to the map
+    if (event.detail.friendGroupId !== selectFriendGroup.id) {
+      const updatedFriendGroup = $friendGroups?.find(
+        (group) => group.id === event.detail.friendGroupId
+      );
+      if (!updatedFriendGroup) return;
+      selectFriendGroup = { id: updatedFriendGroup?.id, name: updatedFriendGroup?.name };
+    } else {
+      const newMarker: MapMarker = new Marker()
+        .setLngLat({ lat: event.detail.lat, lng: event.detail.lng })
+        .addTo(map);
+      newMarker.place = {
+        id: event.detail.id,
+        name: event.detail.name,
+        categories: event.detail.categories,
+        lat: event.detail.lat,
+        lng: event.detail.lng
+      };
+      markers = [...markers, newMarker];
+    }
   };
 
   const editMarker = (event: CustomEvent): void => {

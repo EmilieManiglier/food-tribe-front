@@ -55,7 +55,7 @@
           </NavLink>
         </li>
         <li>
-          <NavLink to="/places" icon={faMapLocationDot} bind:menuOpen>
+          <NavLink to={paths.placeList.path} icon={faMapLocationDot} bind:menuOpen>
             {$_('navigation.places')}
           </NavLink>
         </li>

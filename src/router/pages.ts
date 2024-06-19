@@ -10,6 +10,9 @@ export const pages = {
   [paths.login.path]: wrap({
     asyncComponent: () => import('@/components/pages/AuthPage.svelte')
   }),
+  [paths.register.path]: wrap({
+    asyncComponent: () => import('@/components/pages/AuthPage.svelte')
+  }),
   [paths.home.path]: wrap({
     asyncComponent: () => import('@/components/pages/HomePage.svelte'),
     conditions: [isLoggedIn]
@@ -28,8 +31,9 @@ export const pages = {
     conditions: [isLoggedIn],
     props: { edit: true }
   }),
-  [paths.register.path]: wrap({
-    asyncComponent: () => import('@/components/pages/AuthPage.svelte')
+  [paths.placeList.path]: wrap({
+    asyncComponent: () => import('@/components/pages/PlaceListPage.svelte'),
+    conditions: [isLoggedIn]
   }),
   [paths.designSystem]: wrap({
     asyncComponent: () => import('@/components/pages/DesignSystemPage.svelte'),
