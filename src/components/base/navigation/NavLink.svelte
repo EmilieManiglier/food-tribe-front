@@ -6,12 +6,14 @@
 
   export let icon: IconDefinition | null = null;
   export let to: string;
+  export let menuOpen: boolean;
 </script>
 
 <a
   href={to}
   class="nav-link {$location === to && 'active'}"
   use:link={{ href: to, disabled: $location === to }}
+  on:click={() => (menuOpen = false)}
 >
   <Icon
     name={icon}

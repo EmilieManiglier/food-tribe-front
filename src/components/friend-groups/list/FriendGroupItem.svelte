@@ -30,7 +30,7 @@
 </script>
 
 <div
-  class="bg-white shadow-md w-72 min-h-[19.5rem] py-4 px-8 flex-center-center flex-col gap-8 relative"
+  class="bg-white shadow-md w-72 min-h-[20rem] py-4 px-8 flex-center-center flex-col gap-8 relative"
 >
   <div class="absolute top-0 right-0 z-10">
     <Dropdown position="bottom-center">

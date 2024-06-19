@@ -8,9 +8,9 @@
 
   const { currentUser } = useCurrentUser();
 
-  // Routes interceptor function that redirects to homepage
+  // Routes interceptor function that redirects to homepage or login
   const routesConditionsFailed = () => {
-    push(paths.home.path);
+    $currentUser ? push(paths.home.path) : push(paths.login.path);
   };
 </script>
 

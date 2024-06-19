@@ -54,7 +54,7 @@
       </div>
     {:else}
       <p class="text-center">
-        {$_('friendGroups.noGroups')}
+        {$_('friendGroup.noGroup')}
       </p>
     {/if}
   {/if}

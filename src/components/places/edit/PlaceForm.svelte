@@ -41,7 +41,7 @@
 
   const prefillForm = () => {
     if (!place) return;
-    const groupLabel = $friendGroups.find((group) => group.id === place.friendGroupId);
+    const groupLabel = $friendGroups?.find((group) => group.id === place.friendGroupId);
     form = {
       name: place.name || '',
       lat: place.lat,
@@ -64,7 +64,7 @@
       lng: place.lng,
       friendGroupId: form.friendGroup?.id
         ? toNumber(form.friendGroup?.id)
-        : $friendGroups[0]?.id
+        : $friendGroups?.[0]?.id
     };
     delete form.friendGroup;
   };
@@ -126,7 +126,7 @@
 
   <FormSelect
     name="friendGroup"
-    options={$friendGroups}
+    options={$friendGroups || []}
     label="name"
     itemId="id"
     class="place-form-select"

@@ -50,17 +50,17 @@
         <a href="/" class="h1 hidden lg:block lg:p-6 lg:pb-12">Food Tribe</a>
 
         <li>
-          <NavLink to={paths.home.path} icon={faHouse}>
+          <NavLink to={paths.home.path} icon={faHouse} bind:menuOpen>
             {$_('navigation.dashboard')}
           </NavLink>
         </li>
         <li>
-          <NavLink to="/places" icon={faMapLocationDot}>
+          <NavLink to="/places" icon={faMapLocationDot} bind:menuOpen>
             {$_('navigation.places')}
           </NavLink>
         </li>
         <li>
-          <NavLink to={paths.friendGroups.path} icon={faUsers}>
+          <NavLink to={paths.friendGroups.path} icon={faUsers} bind:menuOpen>
             {$_('navigation.friendGroups')}
           </NavLink>
         </li>

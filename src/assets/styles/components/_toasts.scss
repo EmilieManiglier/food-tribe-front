@@ -14,4 +14,12 @@
   --toastBorderRadius: 0.3125rem;
   --toastWidth: fit-content;
 }
+
+.custom-warning-toaster {
+  --toastBackground: theme('colors.secondary.300');
+  --toastBarBackground: theme('colors.secondary.600');
+  --toastColor: theme('colors.gray.700');
+  --toastBorderRadius: 0.3125rem;
+  --toastWidth: fit-content;
+}
 /* stylelint-enable */

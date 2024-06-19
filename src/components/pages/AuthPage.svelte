@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { push, location } from 'svelte-spa-router';
+  import { push, location, link } from 'svelte-spa-router';
   import { isEmpty } from 'lodash';
 
   import { AuthLayout, LoginForm, RegisterForm } from '@/components';
@@ -62,11 +62,11 @@
 
     <div class="pt-12 text-center">
       {#if isLogin}
-        <a href={paths.register.path} class="bg-purple-300 p-4 w-full block">
+        <a use:link href={paths.register.path} class="bg-purple-300 p-4 w-full block">
           {$_('register.createAccount')}
         </a>
       {:else if isRegister}
-        <a href={paths.login.path} class="bg-purple-300 p-4 w-full block">
+        <a use:link href={paths.login.path} class="bg-purple-300 p-4 w-full block">
           {$_('login.loginCta')}
         </a>
       {/if}
