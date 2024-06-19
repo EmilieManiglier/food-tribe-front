@@ -1,10 +1,17 @@
 {
   "buttons": {
     "cancel": "Annuler",
-    "confirm": "Confirmer",
     "closeModal": "Fermer la modale",
+    "confirm": "Confirmer",
     "delete": "Supprimer",
+    "edit": "Éditer",
     "editPlace": "Éditer ce lieu",
+    "save": "Enregistrer",
     "validate": "Valider"
+  },
+  "navigation": {
+    "dashboard": "Tableau de bord",
+    "friendGroups": "Groupes & Amis",
+    "places": "Adresses enregistrées"
   }
 }

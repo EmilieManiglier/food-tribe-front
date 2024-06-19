@@ -3,7 +3,9 @@ export type Place = {
   lat: number;
   id?: number | null;
   name?: string;
+  description?: string;
   categories?: Category[];
+  friendGroupId?: number | null;
 };
 
 export type Category = {
@@ -22,10 +24,14 @@ export type PlaceModals = {
 
 export type PlaceModalType = 'delete' | 'edit' | 'create' | 'show';
 
+export type GetPlaceCallOptions = {
+  friendGroupId?: number;
+};
+
 export type PlacesContextValue = {
   places: Writable<Place[]>;
   categories: Writable<Category[]>;
-  getPlaces: () => Promise<void>;
+  getPlaces: (options: GetPlaceCallOptions) => Promise<void>;
   getCategories: () => Promise<void>;
   deletePlace: (markers: MapMarker[]) => Promise<void>;
   deleteLoading: Writable<boolean>;

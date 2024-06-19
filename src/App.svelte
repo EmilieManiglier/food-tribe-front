@@ -1,34 +1,24 @@
 <script lang="ts">
-  import { Router, Route } from 'svelte-navigator';
+  import Router, { push } from 'svelte-spa-router';
   import { SvelteToast } from '@zerodevx/svelte-toast';
 
-  import { DesignSystemPage, HomePage, Navbar, AuthPage } from '@/components';
-  import { routes, PrivateRoute } from '@/router';
+  import { routes, paths } from '@/router';
+  import { Navbar } from '@/components';
   import { useCurrentUser } from '@/store';
 
   const { currentUser } = useCurrentUser();
+
+  // Routes interceptor function that redirects to homepage or login
+  const routesConditionsFailed = () => {
+    $currentUser ? push(paths.home.path) : push(paths.login.path);
+  };
 </script>
 
-<Router basepath="/">
-  {#if $currentUser}
-    <Navbar />
-  {/if}
+{#if $currentUser}
+  <Navbar />
+{/if}
 
-  <main>
-    <SvelteToast />
-
-    <!-- TODO : Show DesignSystem Route only in dev mode -->
-    <Route path={routes.designSystem.path} component={DesignSystemPage} />
-
-    <Route path={routes.login.path}>
-      <AuthPage />
-    </Route>
-    <Route path={routes.register.path}>
-      <AuthPage />
-    </Route>
-
-    <PrivateRoute path={routes.home.path} let:location>
-      <HomePage />
-    </PrivateRoute>
-  </main>
-</Router>
+<main class="min-h-screen">
+  <SvelteToast />
+  <Router {routes} on:conditionsFailed={routesConditionsFailed} />
+</main>

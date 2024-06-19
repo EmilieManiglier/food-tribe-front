@@ -12,9 +12,11 @@
     FlatPosition,
     MapMarker,
     MapOptionState,
-    Place
+    Place,
+    FriendGroupContextValue,
+    Option
   } from '@/definitions';
-  import { Button, Icon, Modal, PlaceForm } from '@/components';
+  import { Button, FormSelect, Icon, Modal, PlaceForm } from '@/components';
   import { _ } from '@/translations';
 
   export let initialState: MapOptionState = {
@@ -27,6 +29,7 @@
   let mapContainer: HTMLElement;
   let mapController: any;
   let markers: MapMarker[] = [];
+  let selectFriendGroup: Option = { id: null, name: '' };
 
   config.apiKey = import.meta.env.VITE_APP_MAPTILER_API_KEY;
 
@@ -42,9 +45,11 @@
     openModal
   } = getContext<PlacesContextValue>('places');
 
+  const { getFriendGroups, friendGroups } =
+    getContext<FriendGroupContextValue>('friend-groups');
+
   onMount(() => {
-    getPlaces();
-    getCategories();
+    initFriendGroups();
     initMap();
 
     // Add map listener to open marker modal to show place or create a new one
@@ -56,9 +61,24 @@
     };
   });
 
-  $: {
+  const initFriendGroups = async () => {
+    await getFriendGroups();
+
+    if ($friendGroups && $friendGroups?.length > 0) {
+      selectFriendGroup = $friendGroups[0];
+      getPlacesAndCategories();
+    }
+  };
+
+  const getPlacesAndCategories = async () => {
+    if (!$friendGroups?.[0]) return;
+    await getPlaces({ friendGroupId: $friendGroups[0].id });
     if ($places?.length > 0) initMarkers();
-  }
+
+    // Categories don't need to be fetched first because it is used to display
+    // select inside create / edit modals
+    getCategories();
+  };
 
   const initMap = () => {
     map = new Map({
@@ -77,15 +97,21 @@
       const marker: MapMarker = new Marker()
         .setLngLat({ lat: place.lat, lng: place.lng })
         .addTo(map);
-      marker.place = {
-        id: place.id,
-        name: place.name,
-        categories: place.categories,
-        lat: place.lat,
-        lng: place.lng
-      };
+      setMarkerPlace(marker, place);
       markers = [...markers, marker];
     });
+  };
+
+  const setMarkerPlace = (marker: MapMarker, place: Place) => {
+    marker.place = {
+      id: place.id,
+      name: place.name,
+      categories: place.categories,
+      lat: place.lat,
+      lng: place.lng,
+      description: place.description,
+      friendGroupId: place.friendGroupId
+    };
   };
 
   const openMarkerModal = (
@@ -110,6 +136,10 @@
   };
 
   const addMarkerFromForm = (event: CustomEvent): void => {
+    closeModals();
+    // Add marker only if the place belongs to the selected friend group
+    // The new marker will be visible on selectFriendGroup change
+    if (event.detail.friendGroupId !== selectFriendGroup.id) return;
     const newMarker: MapMarker = new Marker()
       .setLngLat({ lat: event.detail.lat, lng: event.detail.lng })
       .addTo(map);
@@ -121,7 +151,6 @@
       lng: event.detail.lng
     };
     markers = [...markers, newMarker];
-    closeModals();
   };
 
   const editMarker = (event: CustomEvent): void => {
@@ -147,21 +176,47 @@
       Math.abs(markerPosition.y - clickPosition.y) <= margin
     );
   };
+
+  const onFriendGroupChange = async (event: CustomEvent) => {
+    // Get places of the selected friend group
+    const friendGroupId = event.detail.id;
+    await getPlaces({ friendGroupId });
+    if ($places?.length > 0) {
+      // Delete all markers before adding new ones
+      markers.forEach((marker: MapMarker) => marker.remove());
+      markers = [];
+      initMarkers();
+    }
+  };
 </script>
 
 <div class="map-wrap">
   <div class="map" bind:this={mapContainer}></div>
 
-  {#if mapController}
-    <div class="geocoding">
+  <div class="geocoding search-controls">
+    {#if mapController}
       <GeocodingControl
         {mapController}
         apiKey={config.apiKey}
         language="fr"
-        placeholder={$_('searchPlace')}
+        placeholder={$_('form.searchPlace')}
+        class="map-search"
       />
-    </div>
-  {/if}
+    {/if}
+
+    {#if $friendGroups && $friendGroups.length > 0}
+      <FormSelect
+        name="friendGroupId"
+        options={$friendGroups}
+        class="friend-group-select"
+        label="name"
+        itemId="id"
+        clearable={false}
+        bind:value={selectFriendGroup}
+        on:change={onFriendGroupChange}
+      />
+    {/if}
+  </div>
 </div>
 
 <!-- New Marker Modal -->
@@ -258,6 +313,16 @@
 </Modal>
 
 <style lang="scss" scoped>
+  .search-controls :global(.friend-group-select) {
+    width: 17rem;
+    --background: #fff;
+    --border-radius: 0.25rem;
+  }
+
+  .search-controls :global(.map-search .input-group) {
+    height: 100%;
+  }
+
   .map-wrap {
     position: relative;
     width: 100vw;
@@ -272,6 +337,9 @@
 
   .geocoding {
     padding: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
   }
 
   @media screen and (min-width: 1024px) {

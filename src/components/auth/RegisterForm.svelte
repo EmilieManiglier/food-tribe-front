@@ -34,13 +34,13 @@
       <FormInput
         bind:value={form.firstname}
         name="firstname"
-        label={$_('firstname')}
+        label={$_('form.firstname')}
         className="col-span-2 lg:col-span-1"
       />
       <FormInput
         bind:value={form.lastname}
         name="lastname"
-        label={$_('lastname')}
+        label={$_('form.lastname')}
         className="col-span-2 lg:col-span-1"
       />
 
@@ -48,7 +48,7 @@
         bind:value={form.email}
         name="email"
         type="email"
-        label={$_('email')}
+        label={$_('form.email')}
         className="col-span-2"
       />
 
@@ -56,7 +56,7 @@
         bind:value={form.password}
         name="password"
         type="password"
-        label={$_('password')}
+        label={$_('form.password')}
         className="col-span-2"
       />
     </div>
@@ -67,20 +67,20 @@
       <FormInput
         bind:value={form.zipCode}
         name="zipCode"
-        label={$_('zipCode')}
+        label={$_('form.zipCode')}
         className="col-span-2 lg:col-span-1"
       />
       <FormInput
         bind:value={form.city}
         name="city"
-        label={$_('city')}
+        label={$_('form.city')}
         className="col-span-2 lg:col-span-1"
       />
 
       <FormInput
         bind:value={form.country}
         name="country"
-        label={$_('country')}
+        label={$_('form.country')}
         className="col-span-2"
       />
     </div>

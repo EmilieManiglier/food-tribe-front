@@ -2,22 +2,20 @@
   import {
     faChevronDown,
     faHouse,
-    faKitchenSet,
-    faUserGroup,
-    faUtensils
+    faMapLocationDot,
+    faUsers
   } from '@fortawesome/free-solid-svg-icons';
-  import { useNavigate } from 'svelte-navigator';
+  import { push } from 'svelte-spa-router';
 
-  import { Dropdown, Icon, NavLink } from '@/components';
-  import { routes } from '@/router';
+  import { Avatar, Dropdown, Icon, NavLink } from '@/components';
+  import { paths } from '@/router';
   import { useApi, useCurrentUser } from '@/store';
   import { displayToast } from '@/helpers';
   import { _ } from '@/translations';
 
   let menuOpen = false;
 
-  const navigate = useNavigate();
-  const { currentUser, initials } = useCurrentUser();
+  const { currentUser } = useCurrentUser();
   const { call: logoutCall, status: logoutStatus, loading: logoutLoading } = useApi();
 
   const logoutUser = async () => {
@@ -25,9 +23,9 @@
     if ($logoutStatus === 200) {
       if (menuOpen) menuOpen = false;
       currentUser.set(null);
-      navigate(routes.login.path);
+      push(paths.login.path);
     } else {
-      displayToast('error', 'Une erreur est survenue, veuillez réessayer plus tard');
+      displayToast('error', $_('logout.error'));
     }
   };
 </script>
@@ -52,16 +50,19 @@
         <a href="/" class="h1 hidden lg:block lg:p-6 lg:pb-12">Food Tribe</a>
 
         <li>
-          <NavLink to={routes.home.path} icon={faHouse}>Dashboard</NavLink>
+          <NavLink to={paths.home.path} icon={faHouse} bind:menuOpen>
+            {$_('navigation.dashboard')}
+          </NavLink>
         </li>
         <li>
-          <NavLink to="/places" icon={faUtensils}>Favoris</NavLink>
+          <NavLink to="/places" icon={faMapLocationDot} bind:menuOpen>
+            {$_('navigation.places')}
+          </NavLink>
         </li>
         <li>
-          <NavLink to="/cuisines" icon={faKitchenSet}>Cuisines</NavLink>
-        </li>
-        <li>
-          <NavLink to="/amis" icon={faUserGroup}>Amis</NavLink>
+          <NavLink to={paths.friendGroups.path} icon={faUsers} bind:menuOpen>
+            {$_('navigation.friendGroups')}
+          </NavLink>
         </li>
       </div>
       {#if $currentUser}
@@ -80,9 +81,7 @@
                 <Icon name={faChevronDown} className="dropdown-icon" />
               </div>
 
-              <div class="bg-primary-500 rounded-full p-4 w-12 h-12 flex-center-center">
-                {initials()}
-              </div>
+              <Avatar user={$currentUser} />
             </div>
 
             <svelte:fragment slot="dropdown-content">
@@ -93,7 +92,7 @@
                 disabled={$logoutLoading}
                 on:click={logoutUser}
               >
-                {$_('logout')}
+                {$_('logout.logoutCta')}
               </button>
             </svelte:fragment>
           </Dropdown>

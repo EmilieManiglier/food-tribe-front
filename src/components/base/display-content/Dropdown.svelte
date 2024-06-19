@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
 
+  export let position: 'top-right' | 'bottom-right' | 'bottom-center' = 'top-right';
   let open = false;
   let dropdown: HTMLElement;
 
@@ -24,7 +25,7 @@
     <slot name="trigger" {open} />
   </button>
 
-  <div class="dropdown {open ? 'open' : ''}">
+  <div class="dropdown {open ? 'open' : ''} {position}">
     <slot name="dropdown-content" />
   </div>
 </div>
@@ -32,8 +33,6 @@
 <style lang="scss">
   .dropdown {
     position: absolute;
-    top: calc(-100% - 2rem);
-    right: 1rem;
     display: block;
     border-radius: 0.25rem;
     box-shadow: 0 0.06rem 0.25rem 0.15rem rgba(0, 0, 0, 0.05);
@@ -42,6 +41,22 @@
     min-width: 10rem;
     opacity: 0;
     z-index: -1;
+
+    &.top-right {
+      top: calc(-100% - 2rem);
+      right: 1rem;
+    }
+
+    &.bottom-right {
+      top: 100%;
+      right: 0;
+    }
+
+    &.bottom-center {
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
 
     &.open {
       z-index: 60;

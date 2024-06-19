@@ -1,14 +1,6 @@
+// App routes and paths
+import { pages } from '@/router/pages';
+
 export const routes = {
-  designSystem: {
-    path: '/design-system'
-  },
-  home: {
-    path: '/accueil'
-  },
-  login: {
-    path: '/connexion'
-  },
-  register: {
-    path: '/inscription'
-  }
+  ...pages
 };

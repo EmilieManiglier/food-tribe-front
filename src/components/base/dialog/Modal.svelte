@@ -55,18 +55,36 @@
 
 <style lang="postcss" scoped>
   .modal {
-    @apply fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg p-4 -z-10 w-9/10 max-w-9/10 h-9/10 max-h-9/10 opacity-0 transition-opacity duration-200 ease-in-out;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border-radius: 0.375rem;
+    padding: 1rem;
+    z-index: -10;
+    width: 90%;
+    max-width: 90%;
+    height: 90%;
+    max-height: 90%;
+    opacity: 0;
+    transition: opacity 200ms ease-in-out;
 
     &.small {
-      @apply max-w-sm h-fit;
+      max-width: 24rem;
+      height: fit-content;
     }
 
     &.medium {
-      @apply max-w-4xl h-fit;
+      max-width: 64rem;
+      height: fit-content;
+      max-height: 75%;
+      overflow-y: auto;
     }
 
     &.open {
-      @apply opacity-100 z-50;
+      opacity: 1;
+      z-index: 50;
     }
   }
 </style>

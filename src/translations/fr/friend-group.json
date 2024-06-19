@@ -1,0 +1,29 @@
+{
+  "friendGroup": {
+    "actions": {
+      "members": "Voir les membres",
+      "see": "Voir les actions"
+    },
+    "create": {
+      "cta": "Créer un groupe",
+      "error": "Erreur lors de la création du groupe",
+      "success": "Groupe créé avec succès",
+      "title": "Créer un nouveau groupe"
+    },
+    "createdBy": "Créé par {name}",
+    "delete": {
+      "content": "Les lieux associés seront perdus et les membres du groupe ne pourront plus y accéder.",
+      "error": "Erreur lors de la suppression du groupe",
+      "success": "Groupe supprimé avec succès",
+      "title": "Supprimer ce groupe ?"
+    },
+    "edit": {
+      "error": "Erreur lors de la modification du groupe",
+      "success": "Groupe modifié avec succès",
+      "title": "Modifier le groupe"
+    },
+    "groups": "Mes groupes",
+    "members": "{n,plural,one{membre}other{members}}",
+    "noGroup": "Vous n'avez pas encore de groupe, n'hésitez pas à en créer un et à inviter vos amis !"
+  }
+}

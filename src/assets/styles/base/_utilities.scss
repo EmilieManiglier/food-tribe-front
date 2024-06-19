@@ -11,6 +11,14 @@
 		@apply flex items-start justify-between;
 	}
 
+	.main-container {
+		@apply p-4 lg:pl-[18rem];
+	}
+
+	.skeleton {
+		@apply animate-pulse bg-gray-200;
+	}
+
 	.translate-center-center {
 		@apply absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2;
 	}
@@ -20,6 +28,10 @@
     display: -webkit-box;
     -webkit-box-orient: vertical;
     overflow: hidden;
+
+    &.one-line {
+      -webkit-line-clamp: 1;
+    }
 
     &.two-lines {
       -webkit-line-clamp: 2;

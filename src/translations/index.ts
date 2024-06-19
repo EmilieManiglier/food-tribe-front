@@ -12,7 +12,8 @@ const setupI18n = ({ withLocale: _locale } = { withLocale: 'fr' }) => {
       ...fr.auth,
       ...fr.common,
       ...fr.form,
-      ...fr.place
+      ...fr.place,
+      ...fr.friendGroup
     }
   });
 

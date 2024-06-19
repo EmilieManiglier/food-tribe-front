@@ -1,10 +1,8 @@
 <script lang="ts">
-  import { useLocation } from 'svelte-navigator';
+  import { location } from 'svelte-spa-router';
   import bgAuth from '@/assets/img/bg-auth.jpeg';
 
-  const location = useLocation();
-
-  let pageName = $location.pathname.split('/').pop();
+  let pageName = $location.split('/').pop();
 </script>
 
 <div class="auth-layout {pageName}">
