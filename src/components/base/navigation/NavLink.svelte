@@ -28,7 +28,7 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-    padding: 1rem;
+    padding: 2rem 1rem 2rem 2.75rem;
     border-bottom: 0.06rem solid theme('colors.purple.300');
     color: theme('colors.purple.500');
 
@@ -45,7 +45,7 @@
   @media screen and (min-width: 1024px) {
     .nav-link {
       border: 0;
-      padding-left: 1.5rem;
+      padding: 1.5rem;
 
       &.active {
         margin-right: -0.13rem;

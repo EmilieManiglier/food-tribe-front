@@ -8,6 +8,8 @@
   import { useApi, useCurrentUser } from '@/store';
   import { _ } from '@/translations';
 
+  import logo from '@/assets/img/logo-inline-white.png';
+
   const { call: loginCall, data: loginUser, loading: loginLoading } = useApi<User>();
   const {
     call: registerCall,
@@ -73,16 +75,15 @@
     </div>
   </div>
 
-  <h1 slot="intro-title" class="h1">Food Tribe</h1>
+  <h1 slot="intro-title" class="h-12 w-72 -ml-1">
+    <img src={logo} alt="Logo Food Tribe" class="h-full w-full object-contain" />
+    <span class="sr-only">Food tribe</span>
+  </h1>
   <p slot="intro-description" class="mt-4 auth-description">
     {#if isLogin}
-      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-      <br />
-      Aut omnis accusantium fugit neque distinctio earum!
+      {$_('login.description')}
     {:else if isRegister}
-      Envie de partager vos meilleurs pépites culinaires avec vos amis&nbsp;?
-      <br />
-      Inscrivez-vous pour rejoindre la tribu&nbsp;!
+      {@html $_('register.description')}
     {/if}
   </p>
 </AuthLayout>
