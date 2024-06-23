@@ -6,6 +6,8 @@
     faUsers
   } from '@fortawesome/free-solid-svg-icons';
   import { push } from 'svelte-spa-router';
+  import logo from '@/assets/img/logo-layout.svg';
+  import logoMobile from '@/assets/img/logo-inline.png';
 
   import { Avatar, Dropdown, Icon, NavLink } from '@/components';
   import { paths } from '@/router';
@@ -33,7 +35,13 @@
 <header>
   <nav class="text-gray-700 shadow-sm border-b-2 border-purple-300 lg:border-none">
     <div class="flex-center-between gap-4 px-4 py-2 bg-white relative z-50 lg:hidden">
-      <a href="/" class="h1">Food Tribe</a>
+      <a href="/" class="block h-12 w-72">
+        <img
+          src={logoMobile}
+          alt="Logo Food Tribe"
+          class="w-full h-full object-contain"
+        />
+      </a>
 
       <button
         type="button"
@@ -47,7 +55,9 @@
 
     <ul class="nav-menu {menuOpen ? 'open' : ''}">
       <div class="grow">
-        <a href="/" class="h1 hidden lg:block lg:p-6 lg:pb-12">Food Tribe</a>
+        <a href="/" class="h1 hidden lg:block">
+          <img src={logo} alt="Logo Food Tribe" />
+        </a>
 
         <li>
           <NavLink to={paths.home.path} icon={faHouse} bind:menuOpen>
@@ -55,7 +65,7 @@
           </NavLink>
         </li>
         <li>
-          <NavLink to="/places" icon={faMapLocationDot} bind:menuOpen>
+          <NavLink to={paths.placeList.path} icon={faMapLocationDot} bind:menuOpen>
             {$_('navigation.places')}
           </NavLink>
         </li>
@@ -122,6 +132,7 @@
   .nav-menu.open {
     transform: translateY(0);
     top: 3.5rem;
+    padding-top: 3.5rem;
   }
 
   .btn-menu-mobile {
@@ -183,7 +194,6 @@
       width: 16rem;
       max-width: 16rem;
       border-right: 0.13rem solid theme('colors.purple.300');
-      padding-top: 3rem;
     }
   }
 </style>

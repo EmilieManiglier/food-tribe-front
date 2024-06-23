@@ -17,16 +17,11 @@ export { default as AuthLayout } from '@/components/auth/AuthLayout.svelte';
 export { default as LoginForm } from '@/components/auth/LoginForm.svelte';
 export { default as RegisterForm } from '@/components/auth/RegisterForm.svelte';
 
-// Pages
-export { default as DesignSystemPage } from '@/components/pages/DesignSystemPage.svelte';
-export { default as HomePage } from '@/components/pages/HomePage.svelte';
-export { default as AuthPage } from '@/components/pages/AuthPage.svelte';
-export { default as FriendGroupsPage } from '@/components/pages/FriendGroupsPage.svelte';
-export { default as FriendGroupFormPage } from '@/components/pages/FriendGroupFormPage.svelte';
-
 // Places
 export { default as Map } from '@/components/places/shared/Map.svelte';
 export { default as PlaceForm } from '@/components/places/edit/PlaceForm.svelte';
+export { default as PlaceList } from '@/components/places/list/PlaceList.svelte';
+export { default as PlaceItem } from '@/components/places/list/PlaceItem.svelte';
 export { default as PlacesContext } from '@/components/places/shared/PlacesContext.svelte';
 
 // Friend Groups

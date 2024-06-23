@@ -22,7 +22,7 @@
     show: { open: false, state: null }
   });
 
-  const { call: placesCall, data: places } = useApi<Place[]>();
+  const { call: placesCall, data: places, loading: placesLoading } = useApi<Place[]>();
   const { call: categoriesCall, data: categories } = useApi<Category[]>();
   const {
     call: deletePlaceCall,
@@ -82,6 +82,7 @@
 
   setContext<PlacesContextValue>('places', {
     places,
+    placesLoading,
     categories,
     getPlaces,
     getCategories,

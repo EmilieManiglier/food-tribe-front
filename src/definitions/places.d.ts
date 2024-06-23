@@ -2,6 +2,7 @@ export type Place = {
   lng: number;
   lat: number;
   id?: number | null;
+  streetAddress?: string;
   name?: string;
   description?: string;
   categories?: Category[];
@@ -30,8 +31,9 @@ export type GetPlaceCallOptions = {
 
 export type PlacesContextValue = {
   places: Writable<Place[]>;
+  placesLoading: Writable<boolean>;
   categories: Writable<Category[]>;
-  getPlaces: (options: GetPlaceCallOptions) => Promise<void>;
+  getPlaces: (options: GetPlaceCallOptions = {}) => Promise<void>;
   getCategories: () => Promise<void>;
   deletePlace: (markers: MapMarker[]) => Promise<void>;
   deleteLoading: Writable<boolean>;

@@ -1,12 +1,15 @@
 <script lang="ts">
   import { toNumber } from 'lodash';
   import { createEventDispatcher, getContext, onMount } from 'svelte';
+  import { geocoding, config, type GeocodingSearchResult } from '@maptiler/sdk';
 
   import { Button, FormInput, FormSelect, FormTextArea } from '@/components';
   import type { Category, FriendGroupContextValue, Option, Place } from '@/definitions';
   import { useApi } from '@/store';
   import { displayToast } from '@/helpers';
   import { _ } from '@/translations';
+
+  config.apiKey = import.meta.env.VITE_APP_MAPTILER_API_KEY;
 
   export let place: Place;
   export let categories: Category[] = place.categories || [];
@@ -47,6 +50,7 @@
       lat: place.lat,
       lng: place.lng,
       id: place.id || null,
+      streetAddress: place.streetAddress || '',
       categories: place.categories || [],
       description: place.description || '',
       friendGroup: groupLabel || { id: null, name: '' }
@@ -57,21 +61,33 @@
     edit ? updatePlace() : createPlace();
   };
 
-  const formatFormParams = () => {
+  const formatFormParams = async () => {
+    // Reverse geocoding to get the address from the coordinates
+    const results: GeocodingSearchResult = await geocoding.reverse([
+      place.lng,
+      place.lat
+    ]);
+    let address = results.features[0].place_name;
+    // Remove country from the address
+    const lastCommaIndex = address.lastIndexOf(',');
+    address = address.substring(0, lastCommaIndex);
+
     form = {
       ...form,
       lat: place.lat,
       lng: place.lng,
+      streetAddress: edit ? form.streetAddress : address,
       friendGroupId: form.friendGroup?.id
         ? toNumber(form.friendGroup?.id)
         : $friendGroups?.[0]?.id
     };
+    // Remove friendGroup from form as it is not needed in the API call
     delete form.friendGroup;
   };
 
   const createPlace = async () => {
     // TODO : add validations on form
-    formatFormParams();
+    await formatFormParams();
     await createPlaceCall({ url: '/places', method: 'post', params: form });
 
     if ($newPlace) {
@@ -90,7 +106,7 @@
   };
 
   const updatePlace = async () => {
-    formatFormParams();
+    await formatFormParams();
     await updatePlaceCall({ url: `/places/${form.id}`, method: 'put', params: form });
 
     if ($updateStatus === 200) {

@@ -15,6 +15,9 @@ export const paths = {
   login: {
     path: '/connexion'
   },
+  placeList: {
+    path: '/adresses'
+  },
   register: {
     path: '/inscription'
   },
